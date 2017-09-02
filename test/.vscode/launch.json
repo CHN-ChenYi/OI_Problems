@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "gdb",
+            "request": "launch",
+            "preLaunchTask": "visual_studio_g++.exe",
+            "target": "./test",
+            "cwd": "${workspaceRoot}"
+        }
+    ]
+}

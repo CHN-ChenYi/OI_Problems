@@ -1,7 +1,7 @@
 /*
-Name:  [ZJOI2008]count(BZOJ1036)
+Name: name(sourceNo)
 Author: godwings
-Date: 02/09/2017
+Date: DD/MM/YYYY
 */
 #include <cctype>
 #include <cstdio>
@@ -37,8 +37,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("count.in", "r", stdin);
-    freopen("count.out", "w", stdout);
+    freopen("name.in", "r", stdin);
+    freopen("name.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
 

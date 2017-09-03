@@ -4,6 +4,7 @@
         "initializer_list": "cpp",
         "type_traits": "cpp",
         "xutility": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "queue": "cpp"
     }
 }

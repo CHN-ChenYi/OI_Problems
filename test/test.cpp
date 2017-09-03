@@ -117,8 +117,8 @@ struct LinkCutTree {
             Splay();
             PushDown();
             if (child[R]) {
-                child[R]->path_parent = parent;
-                child[R]->parent = this;
+                child[R]->path_parent = this;
+                child[R]->parent = NULL;
                 child[R] = NULL;
                 Maintain();
             }
@@ -251,7 +251,7 @@ int main() {
         } else if (ope[1] == 'M') {
             scan(u, v);
             LCT.GetMax(u, v).print_endl();
-        } else {
+        } else if (ope[1] == 'S') {
             scan(u, v);
             LCT.GetSum(u, v).print_endl();
         }

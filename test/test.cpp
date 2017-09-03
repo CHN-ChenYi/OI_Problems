@@ -36,7 +36,7 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
-template<typename T>
+template <typename T>
 struct LinkCutTree {
     enum Relation {
         L, R
@@ -61,11 +61,11 @@ struct LinkCutTree {
         void Maintain() {
             sum = max_val = value;
             if (child[L]) {
-                sum += child[L]->value;
+                sum += child[L]->sum;
                 max_val = max(max_val, child[L]->max_val);
             }
             if (child[R]) {
-                sum += child[R]->value;
+                sum += child[R]->sum;
                 max_val = max(max_val, child[R]->max_val);
             }
         }
@@ -84,7 +84,7 @@ struct LinkCutTree {
             swap(path_parent, parent->path_parent);
             const Relation now = GetRelation();
             ptrNode OldParent = parent;
-            if (OldParent->parent) 
+            if (OldParent->parent)
                 OldParent->parent->child[OldParent->GetRelation()] = this;
             parent = OldParent->parent;
             OldParent->child[now] = child[now ^ 1];
@@ -131,7 +131,7 @@ struct LinkCutTree {
             path_parent->child[R] = this;
             parent = path_parent;
             path_parent = NULL;
-            path_parent->Maintain();
+            parent->Maintain();
             return true;
         }
         void Access() {
@@ -155,6 +155,38 @@ struct LinkCutTree {
         }
     };
     Node *node[kMaxN];
+    void MakeTree(const int u, const T value) {
+        node[u - 1] = new Node(value);
+    }
+    void Link(const int u, const int v) {
+        node[v - 1]->MakeRoot();
+        node[v - 1]->path_parent = node[u - 1];
+    }
+    void Cut(const int u, const int v) {
+        const int u_id = u - 1;
+        const int v_id = v - 1;
+        node[u_id]->MakeRoot();
+        node[v_id]->Access();
+        node[v_id]->Splay();
+        node[v_id]->PushDown();
+        node[v_id]->child[L]->parent = NULL;
+        node[v_id]->child[L] = NULL;
+        node[v_id]->Maintain();
+    }
+    void Modify(const int u, const T value_) {
+        const int u_id = u - 1;
+        node[u_id]->Splay();
+        node[u_id]->value = value_;
+        node[u_id]->Maintain();
+    }
+    T GetSum(const int u, const int v) {
+        node[u - 1]->MakeRoot();
+        return node[v - 1]->GetSum();
+    }
+    T GetMax(const int u, const int v) {
+        node[u - 1]->MakeRoot();
+        return node[v - 1]->GetMax();
+    }
 };
 struct Int {
     int num;

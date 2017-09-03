@@ -117,8 +117,8 @@ struct LinkCutTree {
             Splay();
             PushDown();
             if (child[R]) {
-                child[R].path_parent = parent;
-                child[R].parent = this;
+                child[R]->path_parent = parent;
+                child[R]->parent = this;
                 child[R] = NULL;
                 Maintain();
             }
@@ -207,7 +207,20 @@ struct Int {
         printf("%d\n", num);
     }
 };
+
+int n, m;
+char ope[10];
 LinkCutTree<Int> LCT;
+struct Edge {
+    int u, v;
+    Edge() {
+        u = v = 0;
+    }
+    Edge(const int u_, const int v_) {
+        u = u_;
+        v = v_;
+    }
+}edge[kMaxN];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -218,6 +231,30 @@ int main() {
     freopen("count.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    scan(n);
+    for (int i = 0, u, v; i < n - 1; i++) {
+        scan(u, v);
+        edge[i] = Edge(u, v);
+    }
+    for (int i = 1, v; i <= n; i++) {
+        scan(v);
+        LCT.MakeTree(i, v);
+    }
+    for (int i = 0; i < n - 1; i++)
+        LCT.Link(edge[i].u, edge[i].v);
+    scan(m);
+    for (int i = 0, u, v, t; i < m; i++) {
+        scanf("%s", ope);
+        if (ope[1] == 'H') {
+            scan(u, t);
+            LCT.Modify(u, t);
+        } else if (ope[1] == 'M') {
+            scan(u, v);
+            LCT.GetMax(u, v).print_endl();
+        } else {
+            scan(u, v);
+            LCT.GetSum(u, v).print_endl();
+        }
+    }
     return 0;
 }

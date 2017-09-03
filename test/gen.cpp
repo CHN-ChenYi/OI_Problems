@@ -1,31 +1,22 @@
 #include <bits/stdc++.h>
 
+inline int rand(const int lim) {
+    return rand() * rand() % lim + 1;
+}
+
 const int T = 20;
 const int N = 10000;
 const int M = 10000;
-const int W = 1000000;
+
+int t, n, m;
 
 int main() {
     freopen("test.in", "w", stdout);
     srand(time(NULL));
-    printf("%d\n", T);
-    for (int t = 1; t <= T; t++) {
-        printf("%d\n", N);
-        for (int i = 2; i <= N; i++)
-            printf("%d %d %d\n", i, rand() % (i - 1) + 1, rand() * rand() % W);
-        for (int i = 1; i <= M; i++) {
-            const int opt = rand() % 2;
-            if (opt) {
-                const int x = rand() % N + 1;
-                int y = rand() % N + 1;
-                while (x == y)
-                    y = rand() % N + 1;
-                printf("QUERY %d %d\n", x, y);
-            } else {
-                printf("CHANGE %d %d\n", rand() % (N - 1) + 1, rand() * rand() % W);
-            }
-        }
-        puts("DONE");
-    }
+    t = rand(T);
+    n = rand(N);
+    m = rand(M);
+    printf("%d\n", t);
+    printf("%d %d\n", n, m);
     return 0;
 }

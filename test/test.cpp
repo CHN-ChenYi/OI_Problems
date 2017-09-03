@@ -1,5 +1,5 @@
 /*
-Name: name(sourceNo)
+Name: title(sourceNo)
 Author: godwings
 Date: DD/MM/YYYY
 */
@@ -37,8 +37,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("name.in", "r", stdin);
-    freopen("name.out", "w", stdout);
+    freopen("title.in", "r", stdin);
+    freopen("title.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
 

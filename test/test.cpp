@@ -203,6 +203,8 @@ int main() {
                 LCT.Link(u, v);
                 break;
             case 'D':
+                if (!LCT.CheckExist(u) || !LCT.CheckExist(v))
+                    continue;
                 LCT.Cut(u, v);
                 break;
         }

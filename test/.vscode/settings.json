@@ -5,6 +5,9 @@
         "type_traits": "cpp",
         "xutility": "cpp",
         "cstdlib": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "iosfwd": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp"
     }
 }

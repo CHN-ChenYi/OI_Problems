@@ -117,6 +117,8 @@ struct LinkCutTree {
 } lct;
 
 int main() {
+    freopen("test.in", "r", stdin);
+    freopen("test.ans", "w", stdout);
     int n, m;
     scanf("%d %d", &n, &m);
 

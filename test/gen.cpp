@@ -119,11 +119,11 @@ inline int rand(const int lim) {
     return rand() * rand() % lim + 1;
 }
 
-const int N = 100;
-const int M = 100;
+const int N = 10;
+const int M = 10;
 
 int n, m;
-const char ope[3][10] = {"Query\t", "Connect\t", "Destroy\t"};
+const char ope[3][10] = {"Connect\t", "Destroy\t", "Query\t"};
 
 int main() {
     freopen("test.in", "w", stdout);
@@ -132,16 +132,11 @@ int main() {
     m = rand(M);
     printf("%d %d\n", n, m);
     for (int i = 1, opt, u, v; i <= m; i++) {
-        opt = rand(3);
+        opt = rand(4);
         u = rand(n);
         v = rand(n);
         switch (opt) {
             case 0:
-                while (u == v)
-                    v = rand(n);
-                printf("%s%d\t%d\n", ope[opt], u, v);
-                break;
-            case 1:
                 while (lct.find(u) == lct.find(v)) {
                     u = rand(n);
                     v = rand(n);
@@ -149,13 +144,19 @@ int main() {
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.link(u, v);
                 break;
-            case 2:
+            case 1:
                 while (lct.find(u) != lct.find(v)) {
                     u = rand(n);
                     v = rand(n);
                 }
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.cut(u, v);
+                break;
+            default:
+                opt = 2;
+                while (u == v)
+                    v = rand(n);
+                printf("%s%d\t%d\n", ope[opt], u, v);
                 break;
         }
     }

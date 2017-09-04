@@ -134,6 +134,9 @@ struct LinkCutTree {
         if (!node[u - 1])
             node[u - 1] = new Node();
     }
+    bool CheckExist(const int u) {
+        return node[u - 1];
+    }
     void Link(const int u, const int v) {
         node[u - 1]->Access();
         node[v - 1]->path_parent = node[u - 1];
@@ -192,7 +195,7 @@ int main() {
         scan(u, v);
         switch (ope[0]) {
             case 'Q':
-                puts(ans[LCT.GetRoot(u) == LCT.GetRoot(v)]);
+                puts(ans[LCT.CheckExist(u) && LCT.CheckExist(v) && LCT.GetRoot(u) == LCT.GetRoot(v)]);
                 break;
             case 'C':
                 LCT.MakeExist(u);

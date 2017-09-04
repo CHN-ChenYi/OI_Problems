@@ -63,7 +63,8 @@ struct LinkCutTree {
             const Relation now = GetRelation();
             if (OldParent->parent)
                 OldParent->parent->child[OldParent->GetRelation()] = this;
-            swap(parent, OldParent->parent);
+            parent = OldParent->parent;
+            OldParent->parent = this;
             OldParent->child[now] = child[now ^ 1];
             if (child[now ^ 1])
                 child[now ^ 1]->parent = OldParent;
@@ -73,8 +74,11 @@ struct LinkCutTree {
         void Splay() {
             while (parent) {
                 if (!parent->parent) {
+                    parent->PushDown();
                     Rotate();
                 } else {
+                    parent->parent->PushDown();
+                    parent->PushDown();
                     if (GetRelation() == parent->GetRelation()) {
                         parent->Rotate();
                         Rotate();
@@ -126,6 +130,10 @@ struct LinkCutTree {
         }
     };
     Node *node[kMaxN];
+    void MakeExist(const int u) {
+        if (!node[u - 1])
+            node[u - 1] = new Node();
+    }
     void Link(const int u, const int v) {
         node[u - 1]->Access();
         node[v - 1]->path_parent = node[u - 1];
@@ -187,6 +195,8 @@ int main() {
                 puts(ans[LCT.GetRoot(u) == LCT.GetRoot(v)]);
                 break;
             case 'C':
+                LCT.MakeExist(u);
+                LCT.MakeExist(v);
                 LCT.Link(u, v);
                 break;
             case 'D':

@@ -126,6 +126,23 @@ struct LinkCutTree {
         }
     };
     Node *node[kMaxN];
+    void Link(const int u, const int v) {
+        node[u - 1]->Access();
+        node[v - 1]->path_parent = node[u - 1];
+    }
+    void Cut(const int u, const int v) {
+        const int u_id = u - 1;
+        const int v_id = v - 1;
+        node[u_id]->MakeRoot();
+        node[v_id]->Access();
+        node[v_id]->Splay();
+        node[v_id]->PushDown();
+        node[v_id]->child[L]->parent = NULL;
+        node[v_id]->child[L] = NULL;
+    }
+    Node* GetRoot(const int u) {
+        return node[u - 1]->GetRoot();
+    }
 };
 
 struct Int {

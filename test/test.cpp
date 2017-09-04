@@ -143,7 +143,7 @@ struct LinkCutTree {
     Node* GetRoot(const int u) {
         return node[u - 1]->GetRoot();
     }
-};
+}LCT;
 
 struct Int {
     int num;
@@ -165,6 +165,10 @@ struct Int {
     }
 };
 
+int n, m;
+char ope[10];
+const char ans[2][10] = {"No", "Yes"};
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -174,6 +178,21 @@ int main() {
     freopen("test.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    scan(n, m);
+    for (int i = 1, u, v; i <= m; i++) {
+        scanf("%s", ope);
+        scan(u, v);
+        switch (ope[0]) {
+            case 'Q':
+                puts(ans[LCT.GetRoot(u) == LCT.GetRoot(v)]);
+                break;
+            case 'C':
+                LCT.Link(u, v);
+                break;
+            case 'D':
+                LCT.Cut(u, v);
+                break;
+        }
+    }
     return 0;
 }

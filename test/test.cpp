@@ -121,6 +121,7 @@ struct LinkCutTree {
         }
         ptrNode GetRoot() {
             Access();
+            Splay();
             ptrNode root = this;
             root->PushDown();
             while (root->child[L]) {

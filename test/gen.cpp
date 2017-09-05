@@ -157,6 +157,8 @@ int main() {
                 break;
             case 2:
                 opt = 1;
+                if (!s.size())
+                    goto cy;
                 u = rand(s.size());
                 for (set<pair<int, int> >::iterator it = s.begin(); it != s.end(); it++) {
                     cnt++;

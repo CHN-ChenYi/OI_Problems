@@ -44,6 +44,9 @@ struct LinkCutTree {
         bool reversed;
         typedef Node* ptrNode;
         ptrNode child[2], parent, path_parent;
+        Node() {
+            child[0] = child[1] = parent = path_parent = NULL;
+        }
         void PushDown() {
             if (reversed) {
                 swap(child[L], child[R]);
@@ -65,7 +68,6 @@ struct LinkCutTree {
             if (OldParent->parent)
                 OldParent->parent->child[OldParent->GetRelation()] = this;
             parent = OldParent->parent;
-            OldParent->parent = this;
             OldParent->child[now] = child[now ^ 1];
             if (child[now ^ 1])
                 child[now ^ 1]->parent = OldParent;
@@ -101,7 +103,6 @@ struct LinkCutTree {
         }
         bool Splice() {
             Splay();
-            PushDown();
             if (!path_parent)
                 return false;
             path_parent->Expose();
@@ -143,7 +144,7 @@ struct LinkCutTree {
         return node[u - 1];
     }
     void Link(const int u, const int v) {
-        node[u - 1]->Access();
+        node[v - 1]->MakeRoot();
         node[v - 1]->path_parent = node[u - 1];
     }
     void Cut(const int u, const int v) {
@@ -153,10 +154,8 @@ struct LinkCutTree {
         node[v_id]->Access();
         node[v_id]->Splay();
         node[v_id]->PushDown();
-        if (node[v_id]->child[L]) {
-            node[v_id]->child[L]->parent = NULL;
-            node[v_id]->child[L] = NULL;
-        }
+        node[v_id]->child[L]->parent = NULL;
+        node[v_id]->child[L] = NULL;
     }
     Node* GetRoot(const int u) {
         return node[u - 1]->GetRoot();

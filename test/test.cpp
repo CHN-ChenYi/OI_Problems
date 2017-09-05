@@ -152,8 +152,10 @@ struct LinkCutTree {
         node[v_id]->Access();
         node[v_id]->Splay();
         node[v_id]->PushDown();
-        node[v_id]->child[L]->parent = NULL;
-        node[v_id]->child[L] = NULL;
+        if (node[v_id]->child[L]) {
+            node[v_id]->child[L]->parent = NULL;
+            node[v_id]->child[L] = NULL;
+        }
     }
     Node* GetRoot(const int u) {
         return node[u - 1]->GetRoot();

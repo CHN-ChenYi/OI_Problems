@@ -5,6 +5,7 @@ Date: 04/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <algorithm>
 const int kMaxN = 10000;
 using std::swap;
@@ -130,6 +131,9 @@ struct LinkCutTree {
         }
     };
     Node *node[kMaxN];
+    LinkCutTree() {
+        memset(node, 0, sizeof(node));
+    }
     void MakeExist(const int u) {
         if (!node[u - 1])
             node[u - 1] = new Node();

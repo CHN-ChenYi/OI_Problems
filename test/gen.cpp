@@ -119,8 +119,8 @@ inline int rand(const int lim) {
     return rand() * rand() % lim + 1;
 }
 
-const int N = 100;
-const int M = 100;
+const int N = 10000;
+const int M = 200000;
 
 int n, m;
 const char ope[3][10] = {"Connect\t", "Destroy\t", "Query\t"};
@@ -138,24 +138,24 @@ int main() {
         switch (opt) {
             case 0:
                 opt = 0;
-                while (cnt < 100 && lct.find(u) == lct.find(v)) {
+                while (cnt < 1000 && lct.find(u) == lct.find(v)) {
                     cnt++;
                     u = rand(n);
                     v = rand(n);
                 }
-                if (cnt == 100)
+                if (cnt == 1000)
                     goto cy;
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.link(u, v);
                 break;
             case 1:
                 opt = 1;
-                while (cnt < 100 && lct.find(u) != lct.find(v)) {
+                while (cnt < 1000 && lct.find(u) != lct.find(v)) {
                     cnt++;
                     u = rand(n);
                     v = rand(n);
                 }
-                if (cnt == 100)
+                if (cnt == 1000)
                     goto cy;
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.cut(u, v);

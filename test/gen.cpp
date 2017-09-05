@@ -127,6 +127,8 @@ const int M = 20;
 
 int n, m;
 const char ope[3][10] = {"Connect\t", "Destroy\t", "Query\t"};
+using namespace std;
+set<pair<int, int> > s;
 
 int main() {
     freopen("test.in", "w", stdout);
@@ -136,7 +138,7 @@ int main() {
     lct.Init();
     printf("%d %d\n", n, m);
     for (int i = 1, opt, u, v, cnt; i <= m; i++, cnt = 0) {
-        opt = rand(4);
+        opt = rand(3);
         u = rand(n);
         v = rand(n);
         switch (opt) {
@@ -151,18 +153,20 @@ int main() {
                     goto cy;
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.link(u, v);
+                s.insert(make_pair(u, v));
                 break;
             case 2:
                 opt = 1;
-                while (cnt < 1000 && lct.find(u) != lct.find(v)) {
+                u = rand(s.size());
+                for (set<pair<int, int> >::iterator it = s.begin(); it != s.end(); it++) {
                     cnt++;
-                    u = rand(n);
-                    v = rand(n);
+                    if (cnt == u) {
+                        printf("%s%d\t%d\n", ope[opt], it->first, it->second);
+                        lct.cut(it->first, it->second);
+                        s.erase(it);
+                        break;
+                    }
                 }
-                if (cnt == 1000)
-                    goto cy;
-                printf("%s%d\t%d\n", ope[opt], u, v);
-                lct.cut(u, v);
                 break;
             default:
             cy:

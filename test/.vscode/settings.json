@@ -9,6 +9,7 @@
         "iosfwd": "cpp",
         "xstring": "cpp",
         "xtree": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "utility": "cpp"
     }
 }

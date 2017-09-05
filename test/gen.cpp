@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
-const int MAXN = 10000;
-const int MAXM = 200000;
+const int MAXN = 100000;
+const int MAXM = 2000000;
 
 struct LinkCutTree {
     enum Relation {
@@ -96,6 +96,9 @@ struct LinkCutTree {
             reversed ^= 1;
         }
     } nodes[MAXN];
+    void Init() {
+        memset(nodes, 0, sizeof(nodes));
+    }
 
     void link(int u, int v) {
         nodes[v - 1].evert();
@@ -119,8 +122,8 @@ inline int rand(const int lim) {
     return rand() * rand() % lim + 1;
 }
 
-const int N = 10000;
-const int M = 200000;
+const int N = 10;
+const int M = 20;
 
 int n, m;
 const char ope[3][10] = {"Connect\t", "Destroy\t", "Query\t"};
@@ -130,13 +133,14 @@ int main() {
     srand(time(NULL));
     n = N;
     m = M;
+    lct.Init();
     printf("%d %d\n", n, m);
     for (int i = 1, opt, u, v, cnt; i <= m; i++, cnt = 0) {
         opt = rand(4);
         u = rand(n);
         v = rand(n);
         switch (opt) {
-            case 0:
+            case 1:
                 opt = 0;
                 while (cnt < 1000 && lct.find(u) == lct.find(v)) {
                     cnt++;
@@ -148,7 +152,7 @@ int main() {
                 printf("%s%d\t%d\n", ope[opt], u, v);
                 lct.link(u, v);
                 break;
-            case 1:
+            case 2:
                 opt = 1;
                 while (cnt < 1000 && lct.find(u) != lct.find(v)) {
                     cnt++;

@@ -37,6 +37,7 @@ using FastIO::scan;
 
 template<typename T>
 struct LinkCutTree {
+ private:
     enum Relation {
         L, R
     };
@@ -138,6 +139,22 @@ struct LinkCutTree {
             reversed ^= 1;
         }
     };
+    void Link(Node *u, Node *v) {
+        v->MakeRoot();
+        v->path_parent = u;
+    }
+    void Cut(Node *u, Node *v) {
+        u->MakeRoot();
+        v->Access();
+        v->Splay();
+        v->PushDown();
+        v->child[L]->parent = NULL;
+        v->child[L] = NULL;
+        v->Maintain();
+    }
+
+ public:
+
 };
 
 int main() {

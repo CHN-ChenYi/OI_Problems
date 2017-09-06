@@ -53,11 +53,13 @@ struct LinkCutTree {
         ptrNode child[2], parent, path_parent, max_val_ptr;
         Node() {
             value = 0;
+            reversed = false;
             max_val_ptr = this;
             child[L] = child[R] = parent = path_parent = NULL;
         }
         Node(const int value_) {
             value = value_;
+            reversed = false;
             max_val_ptr = this;
             child[L] = child[R] = parent = path_parent = NULL;
         }
@@ -82,6 +84,7 @@ struct LinkCutTree {
             }
         }
         void Rotate() {
+            PushDown();
             swap(path_parent, parent->path_parent);
             const ptrNode OldParent = parent;
             const Relation now = GetRelation();
@@ -186,7 +189,7 @@ struct LinkCutTree {
      bool Find(const int u, const int v) {
          return GetRoot(u) == GetRoot(v);
      }
-     int GetMax(const int u, const int v) {
+     int GetMaxId(const int u, const int v) {
          p[u].MakeRoot();
          p[v].Access();
          p[v].Splay();
@@ -226,7 +229,7 @@ int main() {
         if (now.u == now.v)
             continue;
         if (LCT.Find(now.u, now.v)) {
-            const int max_val = LCT.GetMax(now.u, now.v);
+            const int max_val = LCT.GetMaxId(now.u, now.v);
             if (e[max_val].b > now.b) {
                 LCT.Cut(max_val);
                 LCT.Link(now.u, now.v, i, now.b);
@@ -235,7 +238,7 @@ int main() {
             LCT.Link(now.u, now.v, i, now.b);
         }
         if (LCT.Find(0, n - 1))
-            ans = min(ans, now.a + e[LCT.GetMax(0, n - 1)].b);
+            ans = min(ans, now.a + e[LCT.GetMaxId(0, n - 1)].b);
     }
     printf("%d\n", ans == INT_MAX ? -1 : ans);
     return 0;

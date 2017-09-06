@@ -53,11 +53,13 @@ struct LinkCutTree {
         ptrNode child[2], parent, path_parent, max_val_ptr;
         Node() {
             value = 0;
-            child[L] = child[R] = parent = path_parent = max_val_ptr = NULL;
+            max_val_ptr = this;
+            child[L] = child[R] = parent = path_parent = NULL;
         }
         Node(const int value_) {
             value = value_;
-            child[L] = child[R] = parent = path_parent = max_val_ptr = NULL;
+            max_val_ptr = this;
+            child[L] = child[R] = parent = path_parent = NULL;
         }
         Relation GetRelation() {
             return this == parent->child[L] ? L : R;

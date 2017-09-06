@@ -40,7 +40,7 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
-template<typename T>
+template <typename T>
 struct LinkCutTree {
  private:
     enum Relation {
@@ -57,20 +57,14 @@ struct LinkCutTree {
             max_val_ptr = this;
             child[L] = child[R] = parent = path_parent = NULL;
         }
-        Node(const int value_) {
-            value = value_;
-            reversed = false;
-            max_val_ptr = this;
-            child[L] = child[R] = parent = path_parent = NULL;
-        }
         Relation GetRelation() {
             return this == parent->child[L] ? L : R;
         }
         void Maintain() {
             max_val_ptr = this;
-            if (child[L] && child[L]->max_val_ptr->value > value)
+            if (child[L] && child[L]->max_val_ptr->value > max_val_ptr->value)
                 max_val_ptr = child[L]->max_val_ptr;
-            if (child[R] && child[R]->max_val_ptr->value > value)
+            if (child[R] && child[R]->max_val_ptr->value > max_val_ptr->value)
                 max_val_ptr = child[R]->max_val_ptr;
         }
         void PushDown() {

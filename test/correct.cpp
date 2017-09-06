@@ -13,7 +13,7 @@ struct LinkCutTree {
         int w;
         bool rev;
 
-        Node() : p(NULL), pp(NULL), max(this), w(0) {}
+        Node() : p(NULL), pp(NULL), max(this), w(0) { }
 
         int relation() { return this == p->c[0] ? 0 : 1; }
 
@@ -184,3 +184,181 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+
+
+template <typename T>
+struct LinkCutTree {
+    enum Relation {
+        L, R
+    };
+    struct Node {
+        bool reversed;
+        T sum, value, max_val;
+        typedef Node* ptrNode;
+        ptrNode child[2], parent, path_parent;
+        Node() {
+            reversed = false;
+            child[L] = child[R] = parent = path_parent = NULL;
+        }
+        explicit Node(const T value_) {
+            reversed = false;
+            sum = value = max_val = value_;
+            child[L] = child[R] = parent = path_parent = NULL;
+        }
+        Relation GetRelation() {
+            return this == parent->child[L] ? L : R;
+        }
+        void Maintain() {
+            sum = max_val = value;
+            if (child[L]) {
+                sum += child[L]->sum;
+                max_val = max(max_val, child[L]->max_val);
+            }
+            if (child[R]) {
+                sum += child[R]->sum;
+                max_val = max(max_val, child[R]->max_val);
+            }
+        }
+        void PushDown() {
+            if (reversed) {
+                swap(child[L], child[R]);
+                if (child[L])
+                    child[L]->reversed ^= 1;
+                if (child[R])
+                    child[R]->reversed ^= 1;
+                reversed = false;
+            }
+        }
+        void Rotate() {
+            PushDown();
+            swap(path_parent, parent->path_parent);
+            const Relation now = GetRelation();
+            ptrNode OldParent = parent;
+            if (OldParent->parent)
+                OldParent->parent->child[OldParent->GetRelation()] = this;
+            parent = OldParent->parent;
+            OldParent->child[now] = child[now ^ 1];
+            if (child[now ^ 1])
+                child[now ^ 1]->parent = OldParent;
+            child[now ^ 1] = OldParent;
+            OldParent->parent = this;
+            OldParent->Maintain();
+            Maintain();
+        }
+        void Splay() {
+            while (parent) {
+                if (!parent->parent) {
+                    parent->PushDown();
+                    Rotate();
+                } else {
+                    parent->parent->PushDown();
+                    parent->PushDown();
+                    if (GetRelation() == parent->GetRelation()) {
+                        parent->Rotate();
+                        Rotate();
+                    } else {
+                        Rotate();
+                        Rotate();
+                    }
+                }
+            }
+        }
+        void Expose() {
+            Splay();
+            PushDown();
+            if (child[R]) {
+                child[R]->path_parent = this;
+                child[R]->parent = NULL;
+                child[R] = NULL;
+                Maintain();
+            }
+        }
+        bool Splice() {
+            Splay();
+            if (!path_parent)
+                return false;
+            path_parent->Expose();
+            path_parent->child[R] = this;
+            parent = path_parent;
+            path_parent = NULL;
+            parent->Maintain();
+            return true;
+        }
+        void Access() {
+            Expose();
+            while (Splice()) { }
+        }
+        void MakeRoot() {
+            Access();
+            Splay();
+            reversed ^= 1;
+        }
+        const T &GetSum() {
+            Access();
+            Splay();
+            return sum;
+        }
+        const T &GetMax() {
+            Access();
+            Splay();
+            return max_val;
+        }
+    };
+    Node *node[kMaxN];
+    void MakeTree(const int u, const T value) {
+        node[u - 1] = new Node(value);
+    }
+    void Link(const int u, const int v) {
+        node[v - 1]->MakeRoot();
+        node[v - 1]->path_parent = node[u - 1];
+    }
+    void Cut(const int u, const int v) {
+        const int u_id = u - 1;
+        const int v_id = v - 1;
+        node[u_id]->MakeRoot();
+        node[v_id]->Access();
+        node[v_id]->Splay();
+        node[v_id]->PushDown();
+        node[v_id]->child[L]->parent = NULL;
+        node[v_id]->child[L] = NULL;
+        node[v_id]->Maintain();
+    }
+    void Modify(const int u, const T value_) {
+        const int u_id = u - 1;
+        node[u_id]->Splay();
+        node[u_id]->value = value_;
+        node[u_id]->Maintain();
+    }
+    T GetSum(const int u, const int v) {
+        node[u - 1]->MakeRoot();
+        return node[v - 1]->GetSum();
+    }
+    T GetMax(const int u, const int v) {
+        node[u - 1]->MakeRoot();
+        return node[v - 1]->GetMax();
+    }
+};
+struct Int {
+    int num;
+    Int() {
+        num = 0;
+    }
+    Int(const int num_) {
+        num = num_;
+    }
+    bool operator<(const Int rhs) const {
+        return num < rhs.num;
+    }
+    Int operator+=(const Int rhs) {
+        num += rhs.num;
+        return *this;
+    }
+    inline void print_endl() {
+        printf("%d\n", num);
+    }
+};

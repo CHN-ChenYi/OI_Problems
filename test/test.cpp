@@ -5,9 +5,14 @@ Date: 06/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <climits>
 #include <algorithm>
 using std::max;
+using std::min;
 using std::swap;
+using std::sort;
+const int kMaxN = 50000;
+const int kMaxM = 100000;
 
 namespace FastIO {
     template <class T>
@@ -152,10 +157,22 @@ struct LinkCutTree {
         v->child[L] = NULL;
         v->Maintain();
     }
+    Node *GetRoot(const int u) {
+
+    }
 
  public:
 
 };
+
+int n, m;
+struct Edge {
+    int u, v, a, b;
+    bool operator<(const Edge rhs) const {
+        return a < rhs.a;
+    }
+}e[kMaxM];
+LinkCutTree<int> LCT;
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -166,6 +183,31 @@ int main() {
     freopen("test.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    scan(n, m);
+    for (int i = 0; i < m; i++) {
+        scan(e[i].u, e[i].v);
+        scan(e[i].a, e[i].b);
+        e[i].u--;
+        e[i].v--;
+    }
+    sort(e, e + m);
+    int ans = INT_MAX;
+    for (int i = 0; i < m; i++) {
+        Edge &now = e[i];
+        if (now.u == now.v)
+            continue;
+        if (LCT.Find(now.u, now.v)) {
+            const int max_val = LCT.GetMax(now.u, now.v);
+            if (e[max_val].b > now.b) {
+                LCT.Cut(max_val);
+                LCT.Link(now.u, now.v, i, now.b);
+            }
+        } else {
+            LCT.Link(now.u, now.v, i, now.b);
+        }
+        if (LCT.Find(0, n - 1))
+            ans = min(ans, now.a + e[LCT.GetMax(0, n - 1)].b);
+    }
+    printf("%d\n", ans == INT_MAX ? -1 : ans);
     return 0;
 }

@@ -48,26 +48,26 @@ struct LinkCutTree {
     };
     struct Node {
         bool reversed;
-        T value, max_val;
+        T value;
         typedef Node* ptrNode;
-        ptrNode child[2], parent, path_parent;
+        ptrNode child[2], parent, path_parent, max_val_ptr;
         Node() {
-            value = max_val;
-            child[L] = child[R] = parent = path_parent = NULL;
+            value = 0;
+            child[L] = child[R] = parent = path_parent = max_val_ptr = NULL;
         }
         Node(const int value_) {
-            value = max_val = value_;
-            child[L] = child[R] = parent = path_parent = NULL;
+            value = value_;
+            child[L] = child[R] = parent = path_parent = max_val_ptr = NULL;
         }
         Relation GetRelation() {
             return this == parent->child[L] ? L : R;
         }
         void Maintain() {
-            max_val = value;
-            if (child[L])
-                max_val = max(max_val, child[L]->max_val);
-            if (child[R])
-                max_val = max(max_val, child[R]->max_val);
+            max_val_ptr = this;
+            if (child[L] && child[L]->max_val_ptr->value > value)
+                max_val_ptr = child[L]->max_val_ptr;
+            if (child[R] && child[R]->max_val_ptr->value > value)
+                max_val_ptr = child[R]->max_val_ptr;
         }
         void PushDown() {
             if (reversed) {
@@ -123,7 +123,7 @@ struct LinkCutTree {
                 Maintain();
             }
         }
-        void Splice() {
+        bool Splice() {
             Splay();
             if (!path_parent)
                 return false;
@@ -143,7 +143,7 @@ struct LinkCutTree {
             Splay();
             reversed ^= 1;
         }
-    };
+    }p[kMaxN], e[kMaxM], *bridge[kMaxM][2];
     void Link(Node *u, Node *v) {
         v->MakeRoot();
         v->path_parent = u;
@@ -158,11 +158,38 @@ struct LinkCutTree {
         v->Maintain();
     }
     Node *GetRoot(const int u) {
-
+        Node *root = &p[u];
+        root->Access();
+        root->Splay();
+        root->PushDown();
+        while (root->child[L]) {
+            root = root->child[L];
+            root->PushDown();
+        }
+        return root;
     }
 
  public:
-
+     void Link(const int u, const int v, const int id, const int value_) {
+         e[id].value = value_;
+         bridge[id][0] = &p[u];
+         bridge[id][1] = &p[v];
+         Link(&p[u], &e[id]);
+         Link(&e[id], &p[v]);
+     }
+     void Cut(const int id) {
+         Cut(bridge[id][0], &e[id]);
+         Cut(&e[id], bridge[id][1]);
+     }
+     bool Find(const int u, const int v) {
+         return GetRoot(u) == GetRoot(v);
+     }
+     int GetMax(const int u, const int v) {
+         p[u].MakeRoot();
+         p[v].Access();
+         p[v].Splay();
+         return p[v].max_val_ptr - e;
+     }
 };
 
 int n, m;

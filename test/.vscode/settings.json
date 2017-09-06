@@ -5,6 +5,7 @@
         "type_traits": "cpp",
         "xutility": "cpp",
         "cstdlib": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "xlocale": "cpp"
     }
 }

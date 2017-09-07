@@ -100,7 +100,7 @@ int main() {
         scan(a[i]);
     for (int i = 1; i <= m; i++)
         scan(b[i]);
-    Data ans = Data(1), prod = Data(1);
+    Data ans, prod = Data(1);
     for (int i = 1; i <= n; i++) {
         while (ans.remainder[i] != a[i]) {
             ans += prod;

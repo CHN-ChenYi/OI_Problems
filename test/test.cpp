@@ -1,7 +1,7 @@
 /*
-Name: title(sourceNo)
+Name: mod(LJOJ4491)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 07/09/2017
 */
 #include <cctype>
 #include <cstdio>
@@ -37,8 +37,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("title.in", "r", stdin);
-    freopen("title.out", "w", stdout);
+    freopen("mod.in", "r", stdin);
+    freopen("mod.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
 

@@ -10,6 +10,7 @@ Date: 07/09/2017
 const int kMaxLog = 18;
 const int kMaxN = 100010;
 const int kMaxM = 200010;
+using std::min;
 using std::swap;
 
 namespace FastIO {
@@ -48,17 +49,18 @@ inline void AddEdge(const int u, const int v, const int w) {
     val[++G_tot] = w; dst[G_tot] = u; nxt[G_tot] = G[v]; G[v] = G_tot;
 }
 
-int dis[kMaxN];
+int dis[kMaxN], fa[kMaxN];
 int f[kMaxN][kMaxLog], dep[kMaxN];
-void dfs(const int now, const int fa) {
+void dfs(const int now) {
     for (int i = G[now]; i; i = nxt[i]) {
-        if (dst[i] == fa)
+        if (dst[i] == fa[now])
             continue;
         if (!dep[dst[i]]) {
             dis[dst[i]] = dis[now] + val[i];
             dep[dst[i]] = dep[now] + 1;
             f[dst[i]][0] = now;
-            dfs(dst[i], now);
+            fa[dst[i]] = now;
+            dfs(dst[i]);
         } else {
             ring_u = now;
             ring_v = dst[i];
@@ -68,7 +70,7 @@ void dfs(const int now, const int fa) {
 }
 void Init() {
     dep[1] = 1;
-    dfs(1, 0);
+    dfs(1);
     for (int j = 1; j < kMaxLog; j++) {
         for (int i = 1; i <= n; i++)
             f[i][j] = f[f[i][j - 1]][j - 1];
@@ -101,10 +103,30 @@ inline int GetDis(const int u, const int v) {
 }
 
 int GetTreeAns(int x, int y, int z) {
-
+    int x_y = LCA(x, y), x_z = LCA(x, z);
+    if (dep[x_z] < dep[x_y]) {
+        return dis[x] + dis[y] + dis[z] - dis[x_y] - (dis[x_z] << 1);
+    } else if (dep[x_z] > dep[x_y]) {
+        return dis[x] + dis[y] + dis[z] - (dis[x_y] << 1) - dis[x_z];
+    } else {
+        int y_z = LCA(y, z);
+        if (dep[y_z] < dep[x_y])
+            return -0x7fffffff;
+        else if (dep[y_z] > dep[x_y])
+            return dis[x] + dis[y] + dis[z] - (dis[x_y] << 1) - dis[y_z];
+        else
+            return dis[x] + dis[y] + dis[z] - (dis[x_y] * 3);
+    }
 }
 int GetRingAns(int x, int y, int z) {
-
+    int ans = GetTreeAns(x, y, z);
+    ans = min(ans, ring_val + GetDis(x, ring_u) + GetTreeAns(ring_v, y, z));
+    ans = min(ans, ring_val + GetDis(x, ring_v) + GetTreeAns(ring_u, y, z));
+    ans = min(ans, ring_val + GetDis(y, ring_u) + GetTreeAns(x, ring_v, z));
+    ans = min(ans, ring_val + GetDis(y, ring_v) + GetTreeAns(x, ring_u, z));
+    ans = min(ans, ring_val + GetDis(z, ring_u) + GetTreeAns(x, y, ring_v));
+    ans = min(ans, ring_val + GetDis(z, ring_v) + GetTreeAns(x, y, ring_u));
+    return ans;
 }
 
 int main() {

@@ -67,13 +67,38 @@ void ReBuild() {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= i; j++) {
             del[i][j] += del[i][j - 1];
-            sum[i][j] += sum[i][j];
+            sum[i][j] += del[i][j];
         }
     }
     top = 0;
 }
 int Calc(int x, int y, int z, int a, int b, int c) {
-
+    if (y > b) {
+        swap(x, a);
+        swap(y, b);
+        swap(z, c);
+    }
+    int inter = x + (b - y), len;
+    if (inter > x + z - 1)
+        return 0;
+    if (a + c - 1 > x + z - 1) {
+        if (a > x + z - 1)
+            return 0;
+        if (a <= x + z - 1 && a >= inter)
+            len = x + z - 1 - a + 1;
+        else
+            len = x + z - 1 - inter + 1;
+        return len * (len + 1) >> 1;
+    }
+    if (a + c - 1 <= x + z - 1 && a + c - 1 >= inter) {
+        if (a >= inter)
+            len = c;
+        else 
+            len = a + c - 1 - inter + 1;
+        return
+            len * (len + 1) >> 1;
+    }
+    return 0;
 }
 
 int main() {

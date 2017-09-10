@@ -53,6 +53,17 @@ int a, b;
 int c, d, l, r;
 int q[kMaxN], pre[kMaxN];
 LL f[kMaxN];
+inline bool Check(int x, int y) {
+    int t = 0;
+    for (int i = 0; i < 26; i++)
+        if (t < cnt[y][i] - cnt[x - 1][i])
+            t = cnt[y][i] - cnt[x - 1][i];
+    return t >= l && t <= r;
+}
+inline void Update(int x, int y) {
+    if (y < x && y >= 0)
+        f[x] = min(f[x], f[y] + b + 1ll * a * (sum[x] - sum[y]) * (sum[x] - sum[y]));
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -76,6 +87,14 @@ int main() {
         f[i] = inf;
         scan(dif[i]);
         sum[i] = sum[i - 1] + dif[i];
+    }
+    for (int i = n - 1, j; i >= 1; i--) {
+        if (!dif[i])
+            continue;
+        for (j = 1; !dif[i + j] && i + j <= n; j++)
+            pre[i + j] = i;
+        if (i + j <= n)
+            pre[i + j] = i;
     }
 
     return 0;

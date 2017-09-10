@@ -64,6 +64,9 @@ inline void Update(int x, int y) {
     if (y < x && y >= 0)
         f[x] = min(f[x], f[y] + b + 1ll * a * (sum[x] - sum[y]) * (sum[x] - sum[y]));
 }
+inline long long Get(int x, int y) {
+    return f[x - 1] + 1ll * c * (sum[y] - sum[x - 1]) + d;
+}
 
 int main() {
 #ifndef ONLINE_JUDGE

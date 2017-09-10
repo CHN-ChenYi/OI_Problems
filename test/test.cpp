@@ -6,9 +6,9 @@ Date: 10/09/2017
 #include <cctype>
 #include <cstdio>
 #include <algorithm>
-const int kMaxN = 100010;
 typedef long long LL;
 const LL inf = 0x7fffffffffffffff;
+const int kMaxN = 100010;
 using std::min;
 
 namespace FastIO {
@@ -58,11 +58,11 @@ inline bool Check(int x, int y) {
     for (int i = 0; i < 26; i++)
         if (t < cnt[y][i] - cnt[x - 1][i])
             t = cnt[y][i] - cnt[x - 1][i];
-    return t >= l && t <= r;
+    return l <= t && t <= r;
 }
-inline void Update(int x, int y) {
-    if (y < x && y >= 0)
-        f[x] = min(f[x], f[y] + b + 1ll * a * (sum[x] - sum[y]) * (sum[x] - sum[y]));
+inline void Update(int ori, int tar) {
+    if (ori < tar && ori >= 0)
+        f[tar] = min(f[tar], f[ori] + b + 1ll * a * (sum[tar] - sum[ori]) * (sum[tar] - sum[ori]));
 }
 inline long long Get(int x, int y) {
     return f[x - 1] + 1ll * c * (sum[y] - sum[x - 1]) + d;
@@ -99,6 +99,23 @@ int main() {
         if (i + j <= n)
             pre[i + j] = i;
     }
-
+    int left = 1, right = 0, ptr = 1;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1, k = i; j <= 15 && k > 0; j++, k = pre[k]) {
+            for (int T = -1; T <= 1; T++)
+                Update(k + T, i);
+        }
+        while (left <= right && !Check(q[left], i))
+            left++;
+        while (ptr <= i && Check(ptr, i)) {
+            while (left <= right && Get(ptr, i) <= Get(q[right], i))
+                right--;
+            q[++right] = ptr++;
+        }
+        if (left <= right)
+            f[i] = min(f[i], Get(q[left], i));
+        Update(0, i);
+        printf("%lld\n", f[i]);
+    }
     return 0;
 }

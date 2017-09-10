@@ -5,6 +5,7 @@ Date: 10/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <algorithm>
 const int kMaxN = 1010;
 using std::swap;
@@ -49,9 +50,27 @@ struct Modify {
     }
 }stack[kMaxN]; int top;
 
-int sum[kMaxN][kMaxN];
+int sum[kMaxN][kMaxN], del[kMaxN][kMaxN];
 void ReBuild() {
-
+    memset(del, 0, sizeof del);
+    for (int i = 0; i < top; i++) {
+        const int x = stack[i].x, y = stack[i].y, z = stack[i].z;
+        for (int j = 1; j <= z; j++) {
+            del[x + j - 1][y]++;
+            del[x + j - 1][y + j]--;
+        }
+    }
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= i; j++)
+            del[i][j] += del[i][j - 1];
+    }
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= i; j++) {
+            del[i][j] += del[i][j - 1];
+            sum[i][j] += sum[i][j];
+        }
+    }
+    top = 0;
 }
 int Calc(int x, int y, int z, int a, int b, int c) {
 

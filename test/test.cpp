@@ -8,6 +8,7 @@ Date: 10/09/2017
 #include <cstring>
 #include <algorithm>
 const int kMaxN = 1010;
+const int kMaxTop = 1000;
 using std::swap;
 
 namespace FastIO {
@@ -44,7 +45,7 @@ struct Modify {
         x = y = z = 0;
     }
     Modify(const int x_, const int y_, const int z_) {
-        x = z_;
+        x = x_;
         y = y_;
         z = z_;
     }
@@ -115,13 +116,13 @@ int main() {
         scan(op, x, y, z);
         if (op == 1) {
             stack[top++] = Modify(x, y, z);
-            if (top >= kMaxN)
+            if (top >= kMaxTop)
                 ReBuild();
         } else {
             ans = 0;
             for (int i = 1; i <= z; i++)
                 ans += sum[x + i - 1][y + i - 1] - sum[x + i - 1][y - 1];
-            for (int i = 1; i <= top; i++)
+            for (int i = 0; i < top; i++)
                 ans += Calc(stack[i].x, stack[i].y, stack[i].z, x, y, z);
             printf("%lld\n", ans);
         }

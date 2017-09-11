@@ -63,7 +63,22 @@ inline int lowerbit(const int &x) {
     return x & -x;
 }
 void Calc(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
-
+    const int pos = lower_bound(a + 1, a + n + 1, Point(ans_l, 0)) - a;
+    for (int i = pos; i <= n && a[i].x <= ans_r; i++) {
+        for (int j = a[i].id; j <= n; j += lowerbit(j))
+            tr[j]++;
+    }
+    for (int i = q_id_l; i <= q_id_r; i++) {
+        q[i].cnt = 0;
+        for (int j = q[i].l; j; j -= lowerbit(j))
+            q[i].cnt += tr[j];
+        for (int j = q[i].r + 1; j; j -= lowerbit(j))
+            q[i].cnt -= tr[j];
+    }
+    for (int i = pos; i <= n && a[i].x <= ans_r; i++) {
+        for (int j = a[i].id; j <= n; j += lowerbit(j))
+            tr[j]--;
+    }
 }
 void OverallDichotomy(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
     if (ans_l == ans_r) {

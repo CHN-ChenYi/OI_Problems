@@ -5,6 +5,7 @@ Date: 11/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <algorithm>
 const int kMaxM = 5010;
 const int kMaxN = 100010;
@@ -48,13 +49,33 @@ struct Query {
     int l, r, k;
     int id;
     int cnt;
-}q[kMaxM];
+}q[kMaxM], tmp[kMaxM];
 int sum[kMaxN], ans[kMaxM];
 void Calc(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
 
 }
 void OverallDichotomy(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
-
+    if (ans_l == ans_r) {
+        for (int i = q_id_l; i <= q_id_r; i++)
+            ans[q[i].id] = ans_l;
+        return;
+    }
+    const int ans_mid = (ans_l + ans_r) >> 1;
+    Calc(q_id_l, q_id_r, ans_l, ans_mid);
+    int left_ptr = q_id_l, right_ptr = q_id_r;
+    for (int i = q_id_l; i <= q_id_r; i++) {
+        if (q[i].k <= q[i].cnt) {
+            tmp[left_ptr++] = q[i];
+        } else {
+            q[i].k -= q[i].cnt;
+            tmp[right_ptr--] = q[i];
+        }
+    }
+    memcpy(q + q_id_l, tmp + q_id_l, (q_id_r - q_id_l + 1) * sizeof(Query));
+    if (left_ptr != q_id_l)
+        OverallDichotomy(q_id_l, left_ptr - 1, ans_l, ans_mid);
+    if (right_ptr != q_id_r)
+        OverallDichotomy(right_ptr + 1, q_id_r, ans_mid + 1, ans_r);
 }
 
 int main() {

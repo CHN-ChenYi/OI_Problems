@@ -11,6 +11,7 @@ const int kMaxM = 5010;
 const int kMaxN = 100010;
 const int inf = 0x7fffffff;
 using std::sort;
+using std::lower_bound;
 
 namespace FastIO {
     template <class T>
@@ -41,7 +42,14 @@ using FastIO::scan;
 int n, m;
 struct Point {
     int x, id;
-    bool operator<(const Point rhs) const {
+    Point() {
+        x = id = 0;
+    }
+    Point(const int x_, const int id_) {
+        x = x_;
+        id = id_;
+    }
+    bool operator<(const Point &rhs) const {
         return x < rhs.x;
     }
 }a[kMaxN];
@@ -50,7 +58,10 @@ struct Query {
     int id;
     int cnt;
 }q[kMaxM], tmp[kMaxM];
-int sum[kMaxN], ans[kMaxM];
+int tr[kMaxN], ans[kMaxM];
+inline int lowerbit(const int &x) {
+    return x & -x;
+}
 void Calc(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
 
 }

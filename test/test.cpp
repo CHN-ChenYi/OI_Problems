@@ -5,10 +5,7 @@ Date: 11/09/2017
 */
 #include <cctype>
 #include <cstdio>
-#include <cstring>
-#include <algorithm>
 const int kMaxN = 100010;
-using std::nth_element;
 
 namespace FastIO {
     template <class T>
@@ -37,7 +34,6 @@ namespace FastIO {
 using FastIO::scan;
 
 int n, m;
-int a[kMaxN], b[kMaxN];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -49,14 +45,6 @@ int main() {
 #endif  // _VISUAL_STUDIO
 #endif
     scan(n, m);
-    for (int i = 1; i <= n; i++)
-        scan(a[i]);
-    for (int i = m, l, r, k; i; i--) {
-        scan(l, r, k);
-        const int len = r - l + 1;
-        memcpy(b, a + l, len * sizeof(int));
-        nth_element(b, b + k - 1, b + len);
-        printf("%d\n", b[k - 1]);
-    }
+
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
-Name: title(sourceNo)
+Name: CRB(HDU5412)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 12/09/2017
 */
 #include <cctype>
 #include <cstdio>
@@ -37,8 +37,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("title.in", "r", stdin);
-    freopen("title.out", "w", stdout);
+    freopen("CRB.in", "r", stdin);
+    freopen("CRB.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
 

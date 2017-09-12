@@ -62,6 +62,39 @@ struct Operate {
 int a[kMaxN], tot;
 int ans[kMaxN];
 
+struct BIT {
+ private:
+    int tr[kMaxN];
+    inline int lowerbit(const int x) {
+        return x & -x;
+    }
+
+ public:
+    void Modify(const int pos, const int delta) {
+        for (int i = pos; i <= n; i += lowerbit(i))
+            tr[i] += delta;
+    }
+    int Query(const int left, const int right) {
+        int ret = 0;
+        for (int i = right; i; i -= lowerbit(i))
+            ret += tr[i];
+        for (int i = left - 1; i; i -= lowerbit(i))
+            ret -= tr[i];
+        return ret;
+    }
+}T;
+void Calc(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
+
+}
+void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
+    if (ans_l == ans_r) {
+        for (int i = ope_id_l; i <= ope_id_r; i++)
+            ans[ope[ope_id_l].id] = ans_l;
+        return;
+    }
+
+}
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -91,6 +124,7 @@ int main() {
                 ope[++tot] = Operate(i, x, y, z);
             }
         }
+        OverallDichotomy(1, tot, -inf, inf);
         for (int i = 1; i <= m; i++) {
             if (ans[i])
                 printf("%d\n", ans[i]);

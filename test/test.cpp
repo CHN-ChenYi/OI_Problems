@@ -60,6 +60,7 @@ struct Operate {
     }
 }ope[kMaxN], tmp[kMaxN];
 int a[kMaxN], tot;
+int ans[kMaxN];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -72,6 +73,7 @@ int main() {
 #endif
     while (scanf("%d", &n) != EOF) {
         tot = 0;
+        memset(ans, 0, sizeof ans);
         for (int i = 1; i <= n; i++) {
             scan(a[i]);
             ope[++tot] = Operate(i, a[i], 1);
@@ -89,7 +91,10 @@ int main() {
                 ope[++tot] = Operate(i, x, y, z);
             }
         }
-        
+        for (int i = 1; i <= m; i++) {
+            if (ans[i])
+                printf("%d\n", ans[i]);
+        }
     }
     return 0;
 }

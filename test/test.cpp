@@ -49,7 +49,7 @@ struct Point {
         x = x_;
         id = id_;
     }
-    bool operator<(const Point &rhs) const {
+    bool operator<(const Point rhs) const {
         return x < rhs.x;
     }
 }a[kMaxN];
@@ -59,7 +59,7 @@ struct Query {
     int cnt;
 }q[kMaxM], tmp[kMaxM];
 int tr[kMaxN], ans[kMaxM];
-inline int lowerbit(const int &x) {
+inline int lowerbit(const int x) {
     return x & -x;
 }
 void Calc(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) {
@@ -119,7 +119,6 @@ int main() {
         a[i].id = i;
     }
     n++;
-    a[n].id = n;
     a[n].x = inf;
     sort(a + 1, a + n + 1);
     for (int i = 1; i <= m; i++) {

@@ -7,7 +7,7 @@ Date: 12/09/2017
 #include <cstdio>
 #include <cstring>
 const int inf = 0x3fffffff;
-const int kMaxN = 2e5 + 10;
+const int kMaxN = 3e5 + 10;
 
 namespace FastIO {
     template <class T>
@@ -44,21 +44,22 @@ struct Operate {
     Operate() {
         memset(this, 0, sizeof(Operate));
     }
-    Operate(const int id_, const int pos_, const int key_) {
-        id = id_;
+    Operate(const int pos_, const int key_, const int cnt_) {
         type = 0;
         pos = pos_;
         key = key_;
+        cnt = cnt_;
     }
     Operate(const int id_, const int l_, const int r_, const int k_) {
-        id = id_;
         type = 1;
+        id = id_;
         l = l_;
         r = r_;
         k = k_;
         cnt = 0;
     }
-}a[kMaxN], tmp[kMaxN];
+}ope[kMaxN], tmp[kMaxN];
+int a[kMaxN], tot;
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -69,6 +70,26 @@ int main() {
     freopen("CRB.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    while (scanf("%d", &n) != EOF) {
+        tot = 0;
+        for (int i = 1; i <= n; i++) {
+            scan(a[i]);
+            ope[++tot] = Operate(i, a[i], 1);
+        }
+        scan(m);
+        for (int i = 1, op, x, y, z; i <= m; i++) {
+            scan(op);
+            if (op == 1) {
+                scan(x, y);
+                ope[++tot] = Operate(i, a[i], -1);
+                a[i] = x;
+                ope[++tot] = Operate(i, a[i], 1);
+            } else {
+                scan(x, y, z);
+                ope[++tot] = Operate(i, x, y, z);
+            }
+        }
+        
+    }
     return 0;
 }

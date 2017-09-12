@@ -90,7 +90,10 @@ void Calc(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans
         else if (ope[i].key <= ans_r)
             T.Modify(ope[i].pos, ope[i].cnt);
     }
-
+    for (int i = ope_id_l; i <= ope_id_r; i++) {
+        if (!ope[i].type && ope[i].key <= ans_r)
+            T.Modify(ope[i].pos, -ope[i].cnt);
+    }
 }
 void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
     if (ans_l == ans_r) {
@@ -100,7 +103,27 @@ void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, c
     }
     const int ans_mid = (ans_l + ans_r) >> 1;
     Calc(ope_id_l, ope_id_r, ans_l, ans_mid);
-
+    int left_ptr = ope_id_l, right_ptr = ope_id_r;
+    for (int i = ope_id_l; i <= ope_id_r; i++) {
+        if (ope[i].type) {
+            if (ope[i].k <= ope[i].cnt) {
+                tmp[left_ptr++] = ope[i];
+            } else {
+                ope[i].k -= ope[i].cnt;
+                tmp[right_ptr--] = ope[i];
+            }
+        } else {
+            if (ope[i].key <= ans_mid)
+                tmp[left_ptr++] = ope[i];
+            else
+                tmp[right_ptr--] = ope[i];
+        }
+    }
+    memcpy(ope + ope_id_l, tmp + ope_id_l, (ope_id_r - ope_id_l + 1) * sizeof(Operate));
+    if (left_ptr != ope_id_l)
+        OverallDichotomy(ope_id_l, left_ptr - 1, ans_l, ans_mid);
+    if (right_ptr != ope_id_r)
+        OverallDichotomy(right_ptr + 1, ope_id_r, ans_mid + 1, ans_r);
 }
 
 int main() {

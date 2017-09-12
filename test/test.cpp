@@ -97,8 +97,10 @@ void Calc(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans
 }
 void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
     if (ans_l == ans_r) {
-        for (int i = ope_id_l; i <= ope_id_r; i++)
-            ans[ope[ope_id_l].id] = ans_l;
+        for (int i = ope_id_l; i <= ope_id_r; i++) {
+            if (ope[i].type)
+                ans[ope[ope_id_l].id] = ans_l;
+        }
         return;
     }
     const int ans_mid = (ans_l + ans_r) >> 1;

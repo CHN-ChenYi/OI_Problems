@@ -70,9 +70,9 @@ void Calc(const int q_id_l, const int q_id_r, const int ans_l, const int ans_r) 
     }
     for (int i = q_id_l; i <= q_id_r; i++) {
         q[i].cnt = 0;
-        for (int j = q[i].l; j; j -= lowerbit(j))
+        for (int j = q[i].r; j; j -= lowerbit(j))
             q[i].cnt += tr[j];
-        for (int j = q[i].r + 1; j; j -= lowerbit(j))
+        for (int j = q[i].l - 1; j; j -= lowerbit(j))
             q[i].cnt -= tr[j];
     }
     for (int i = pos; i <= n && a[i].x <= ans_r; i++) {

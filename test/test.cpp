@@ -9,7 +9,7 @@ Date: 11/09/2017
 #include <algorithm>
 const int kMaxM = 5010;
 const int kMaxN = 100010;
-const int inf = 0x7fffffff;
+const int inf = 1e9;
 using std::sort;
 using std::lower_bound;
 

@@ -5,6 +5,9 @@ Date: 12/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
+const int inf = 0x3fffffff;
+const int kMaxN = 2e5 + 10;
 
 namespace FastIO {
     template <class T>
@@ -31,6 +34,31 @@ namespace FastIO {
     }
 }  // namespace FastIO
 using FastIO::scan;
+
+int n, m;
+struct Operate {
+    int id;
+    bool type; // 0 for modify, 1 for query
+    int pos, key;
+    int l, r, k, cnt;
+    Operate() {
+        memset(this, 0, sizeof(Operate));
+    }
+    Operate(const int id_, const int pos_, const int key_) {
+        id = id_;
+        type = 0;
+        pos = pos_;
+        key = key_;
+    }
+    Operate(const int id_, const int l_, const int r_, const int k_) {
+        id = id_;
+        type = 1;
+        l = l_;
+        r = r_;
+        k = k_;
+        cnt = 0;
+    }
+}a[kMaxN], tmp[kMaxN];
 
 int main() {
 #ifndef ONLINE_JUDGE

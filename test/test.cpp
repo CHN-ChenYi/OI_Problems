@@ -84,6 +84,12 @@ struct BIT {
     }
 }T;
 void Calc(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
+    for (int i = ope_id_l; i <= ope_id_r; i++) {
+        if (ope[i].type)
+            ope[i].cnt = T.Query(ope[i].l, ope[i].r);
+        else if (ope[i].key <= ans_r)
+            T.Modify(ope[i].pos, ope[i].cnt);
+    }
 
 }
 void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, const int ans_r) {
@@ -92,6 +98,8 @@ void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, c
             ans[ope[ope_id_l].id] = ans_l;
         return;
     }
+    const int ans_mid = (ans_l + ans_r) >> 1;
+    Calc(ope_id_l, ope_id_r, ans_l, ans_mid);
 
 }
 

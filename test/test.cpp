@@ -152,9 +152,9 @@ int main() {
             scan(op);
             if (op == 1) {
                 scan(x, y);
-                ope[++tot] = Operate(i, a[i], -1);
-                a[i] = x;
-                ope[++tot] = Operate(i, a[i], 1);
+                ope[++tot] = Operate(i, a[x], -1);
+                a[x] = y;
+                ope[++tot] = Operate(i, a[x], 1);
             } else {
                 scan(x, y, z);
                 ope[++tot] = Operate(i, x, y, z);

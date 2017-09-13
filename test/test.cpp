@@ -6,8 +6,10 @@ Date: 12/09/2017
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
 const int inf = 0x3fffffff;
 const int kMaxN = 3e5 + 10;
+using std::reverse;
 
 namespace FastIO {
     template <class T>
@@ -121,6 +123,8 @@ void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, c
                 tmp[right_ptr--] = ope[i];
         }
     }
+    reverse(tmp + ope_id_l, tmp + left_ptr);
+    reverse(tmp + left_ptr, tmp + ope_id_r + 1);
     memcpy(ope + ope_id_l, tmp + ope_id_l, (ope_id_r - ope_id_l + 1) * sizeof(Operate));
     if (left_ptr != ope_id_l)
         OverallDichotomy(ope_id_l, left_ptr - 1, ans_l, ans_mid);

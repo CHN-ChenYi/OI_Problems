@@ -123,7 +123,6 @@ void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, c
                 tmp[right_ptr--] = ope[i];
         }
     }
-    reverse(tmp + ope_id_l, tmp + left_ptr);
     reverse(tmp + left_ptr, tmp + ope_id_r + 1);
     memcpy(ope + ope_id_l, tmp + ope_id_l, (ope_id_r - ope_id_l + 1) * sizeof(Operate));
     if (left_ptr != ope_id_l)

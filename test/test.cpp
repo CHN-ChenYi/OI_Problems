@@ -101,7 +101,7 @@ void OverallDichotomy(const int ope_id_l, const int ope_id_r, const int ans_l, c
     if (ans_l == ans_r) {
         for (int i = ope_id_l; i <= ope_id_r; i++) {
             if (ope[i].type)
-                ans[ope[ope_id_l].id] = ans_l;
+                ans[ope[i].id] = ans_l;
         }
         return;
     }

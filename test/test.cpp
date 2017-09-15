@@ -5,6 +5,8 @@ Date: 15/09/2017
 */
 #include <cctype>
 #include <cstdio>
+const int kMaxN = 100010;
+const int kMaxM = 200010;
 
 namespace FastIO {
     template <class T>
@@ -32,6 +34,14 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+int n, m;
+
+int G[kMaxN], val[kMaxM], dst[kMaxM], nxt[kMaxM], G_tot;
+void AddEdge(const int u, const int v, const int w) {
+    val[++G_tot] = w; dst[G_tot] = v; nxt[G_tot] = G[u]; G[u] = G_tot;
+    val[++G_tot] = w; dst[G_tot] = u; nxt[G_tot] = G[v]; G[v] = G_tot;
+}
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -41,6 +51,11 @@ int main() {
     freopen("warehouse.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
+    scan(n, m);
+    for (int i = 1, u, v, w; i < n; i++) {
+        scan(u, v, w);
+        AddEdge(u, v, w);
+    }
 
     return 0;
 }

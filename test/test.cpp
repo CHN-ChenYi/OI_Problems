@@ -97,7 +97,7 @@ int main() {
     DFS_1(1, 0);
     DFS_2(1, 0);
     for (int i = 1; i <= n; i++) {
-        LL ans = g[i] * 16;
+        LL ans = g[i] << 4;
         for (int j = 0; j < 16; j++)
             ans += (j ^ m) * f[i][j];
         printf("%lld\n", ans);

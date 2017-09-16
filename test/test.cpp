@@ -208,7 +208,6 @@ public:
     }
 }splay;
 
-int cnt[kMaxN], now_cnt;
 LL Pow(LL x, LL n) {
     LL ret = 1;
     while (n) {
@@ -217,6 +216,25 @@ LL Pow(LL x, LL n) {
         n >>= 1;
     }
     return ret;
+}
+
+int head[kMaxN], belong[kMaxN], cnt;
+char c[kMaxN];
+void DFS_1(const int now) {
+    if (belong[now])
+        return;
+    belong[now] = cnt;
+    if (s[now] != '?')
+        c[cnt] = s[now];
+    DFS_1(same[now]);
+}
+bool vis[kMaxN];
+void DFS_2(const int now, const char &x) {
+    if (vis[now])
+        return;
+    vis[now] = 1;
+    s[now] = x;
+    DFS_2(same[now], x);
 }
 
 int main() {
@@ -241,25 +259,23 @@ int main() {
         splay.Reverse(l, r + 2);
     }
     splay.Print();
-    for (int i = n; i; i--) {
-        if (s[i] != '?')
-            continue;
-        if (s[same[i]] != '?')
-            s[i] = s[same[i]];
-        if (same[i] < i)
-            continue;
-        else
-            cnt[i] = (now_cnt == 13 ? 13 : now_cnt++);
+    for (int i = 1; i <= n; i++) {
+        if (s[i] == '?' && !belong[i]) {
+            head[++cnt] = i;
+            DFS_1(i);
+        }
     }
     left_k = k - 1;
-    for (int i = 1; i <= n; i++) {
-        if (s[i] != '?' || same[i] < i)
-            continue;
-        const LL p = Pow(26, cnt[i]);
-        s[i] = left_k / p + 'a';
-        left_k %= p;
+    for (int i = 1; i <= cnt; i++) {
+        char ch = c[i];
+        if (!ch) {
+            const LL p = Pow(26, cnt - i);
+            ch = left_k / p + 'a';
+            left_k %= p;
+        }
+        DFS_2(head[i], ch);
     }
     for (int i = 1; i <= n; i++)
-        printf("%c", s[i] != '?' ? s[i] : s[same[i]]);
+        printf("%c", s[i]);
     return 0;
 }

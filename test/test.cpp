@@ -36,8 +36,8 @@ namespace FastIO {
 using FastIO::scan;
 
 int n, m;
-LD r, pstart, pend, evstart, evend;
-LD f[kMaxN][kMaxN][kMaxM], g[kMaxN][kMaxN][kMaxM];
+LD r, p_start, p_end, ev_start, ev_end;
+LD p[kMaxN][kMaxN][kMaxM], ev[kMaxN][kMaxN][kMaxM];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -49,7 +49,44 @@ int main() {
 #endif  // _VISUAL_STUDIO
 #endif
     scan(n, m);
-    scanf("%lf", r);
-
+    scanf("%lf", &r);
+    p[0][0][0] = 1;
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++) {
+            for (int k = 0; k <= i * j; k++) {
+                if (i == n && j == m) {
+                    p_end += p[i][j][k];
+                    ev_end += ev[i][j][k];
+                    continue;
+                }
+                LD all = n * m, x, now_p = p[i][j][k], now_ev = ev[i][j][k];
+                //do nothing
+                x = k / all * (1 - r);
+                now_ev += 1 / (1 - x) * now_p;
+                all -= k * (1 - r);
+                //be sad
+                x = k / all * r;
+                p_start += x * now_p;
+                ev_start += x * (now_ev - now_p);
+                //new green
+                x = (n - i)*j / all;
+                p[i + 1][j][k + 1] += x * now_p;
+                ev[i + 1][j][k + 1] += x * now_ev;
+                //new red
+                x = i * (m - j) / all;
+                p[i][j + 1][k + 1] += x * now_p;
+                ev[i][j + 1][k + 1] += x * now_ev;
+                //new both
+                x = (n - i) * (m - j) / all;
+                p[i + 1][j + 1][k + 1] += x * now_p;
+                ev[i + 1][j + 1][k + 1] += x * now_ev;
+                //new neither
+                x = (i * j - k) / all;
+                p[i][j][k + 1] += x * now_p;
+                ev[i][j][k + 1] += x * now_ev;
+            }
+        }
+    }
+    printf("%.6lf\n", ev_end / p_end + ev_start / p_end);
     return 0;
 }

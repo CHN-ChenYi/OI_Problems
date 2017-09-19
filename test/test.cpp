@@ -49,7 +49,7 @@ int main() {
 #endif  // _VISUAL_STUDIO
 #endif
     scan(n, m);
-    scanf("%lf", &r);
+    scanf("%LF", &r);
     p[0][0][0] = 1;
     for (int i = 0; i <= n; i++) {
         for (int j = 0; j <= m; j++) {
@@ -59,34 +59,35 @@ int main() {
                     ev_end += ev[i][j][k];
                     continue;
                 }
-                LD all = n * m, x, now_p = p[i][j][k], now_ev = ev[i][j][k];
-                //do nothing
+                LD all = n * m, x;
+                LD now_p = p[i][j][k], now_ev = ev[i][j][k];
+                // do nothing
                 x = k / all * (1 - r);
-                now_ev += 1 / (1 - x) * now_p;
+                now_ev += now_p / (1 - x);
                 all -= k * (1 - r);
-                //be sad
+                // be sad
                 x = k / all * r;
                 p_start += x * now_p;
                 ev_start += x * (now_ev - now_p);
-                //new green
-                x = (n - i)*j / all;
+                // new green
+                x = (n - i) * j / all;
                 p[i + 1][j][k + 1] += x * now_p;
                 ev[i + 1][j][k + 1] += x * now_ev;
-                //new red
+                // new red
                 x = i * (m - j) / all;
                 p[i][j + 1][k + 1] += x * now_p;
                 ev[i][j + 1][k + 1] += x * now_ev;
-                //new both
+                // new both
                 x = (n - i) * (m - j) / all;
                 p[i + 1][j + 1][k + 1] += x * now_p;
                 ev[i + 1][j + 1][k + 1] += x * now_ev;
-                //new neither
+                // new neither
                 x = (i * j - k) / all;
                 p[i][j][k + 1] += x * now_p;
                 ev[i][j][k + 1] += x * now_ev;
             }
         }
     }
-    printf("%.6lf\n", ev_end / p_end + ev_start / p_end);
+    printf("%.6LF\n", ev_end / p_end + ev_start / p_end);
     return 0;
 }

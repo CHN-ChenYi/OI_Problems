@@ -5,8 +5,10 @@ Date: 22/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <vector>
 #include <cstring>
 typedef unsigned long long ULL;
+using std::vector;
 
 namespace FastIO {
     template <class T>
@@ -57,6 +59,18 @@ struct Disjoint_Set {
     }
 }DS;
 
+int n, k;
+ULL base[20];
+
+struct Segment {
+    int l, r;
+    Segment(const int l_, const int r_) {
+        l = l_;
+        r = r_;
+    }
+};
+vector<Segment> seg;
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -66,6 +80,20 @@ int main() {
     freopen("laser.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
+    scan(n, k);
+    base[0] = 1;
+    for (int i = 1; i <= k; i++)
+        base[i] = base[i] * 10;
+    // seg.push_back(Segment(0, (1ULL << 64) - 1));
+    for (int i = 1; i <= n; i++) {
+        ULL l, r;
+        scan(l, r);
+        if (seg.empty() || seg.back().r + 1 != l)
+            seg.push_back(Segment(l, r));
+        else
+            seg.back().r = r;
+    }
+    n = seg.size();
 
     return 0;
 }

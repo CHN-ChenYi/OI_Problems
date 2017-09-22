@@ -5,6 +5,8 @@ Date: 22/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
+typedef unsigned long long ULL;
 
 namespace FastIO {
     template <class T>
@@ -31,6 +33,29 @@ namespace FastIO {
     }
 }  // namespace FastIO
 using FastIO::scan;
+
+struct Disjoint_Set {
+ private:
+    static const int kMaxN = 20;
+    int fa[kMaxN];
+    int Find(const int x) {
+        return fa[x] == x ? x : (fa[x] = Find(fa[x]));
+    }
+
+ public:
+    Disjoint_Set() {
+         memset(fa, -1, sizeof fa);
+    }
+    int operator[](const int x) {
+        return Find(x);
+    }
+    bool merge(int x, int y) {
+        if ((x = Find(x)) == (y = Find(y)))
+            return false;
+        fa[y] = x;
+        return true;
+    }
+}DS;
 
 int main() {
 #ifndef ONLINE_JUDGE

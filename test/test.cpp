@@ -51,7 +51,7 @@ struct Disjoint_Set {
     int operator[](const int x) {
         return Find(x);
     }
-    bool merge(int x, int y) {
+    bool Merge(int x, int y) {
         if ((x = Find(x)) == (y = Find(y)))
             return false;
         fa[y] = x;
@@ -61,15 +61,23 @@ struct Disjoint_Set {
 
 int n, k;
 ULL base[20];
+bool output[20];
 
 struct Segment {
-    int l, r;
-    Segment(const int l_, const int r_) {
+    ULL l, r;
+    Segment(const ULL l_, const ULL r_) {
         l = l_;
         r = r_;
     }
 };
 vector<Segment> seg;
+
+bool Check(int u, int v, int w) {
+
+}
+bool Check(int u, int v) {
+
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -94,6 +102,26 @@ int main() {
             seg.back().r = r;
     }
     n = seg.size();
-
+    for (int i = 1; i <= 9; ++i) {
+        for (int j = i + 1; j <= 9; ++j) {
+            if (DS[i] == DS[j])
+                continue;
+            if (Check(i, j) && Check(j, i))
+                DS.Merge(i, j);
+        }
+    }
+    for (int i = 1; i <= 9; ++i) {
+        if (output[i])
+            continue;
+        for (int j = i; j <= 9; ++j) {
+            if (output[j])
+                continue;
+            if (DS[i] != DS[j])
+                continue;
+            output[j] = true;
+            printf("%d", j);
+        }
+        putchar('\n');
+    }
     return 0;
 }

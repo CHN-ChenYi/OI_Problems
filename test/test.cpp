@@ -41,10 +41,9 @@ struct Int {
     bool operator!() const {
         return num == 0;
     }
-    Int operator=(const int &rhs) {
+    void operator=(const int &rhs) {
         num += rhs;
         num %= kMod;
-        return *this;
     }
     void operator+=(const Int &rhs) {
         num += rhs.num;
@@ -66,6 +65,8 @@ int main() {
 #endif
     scan(n, m);
     f[0][0][1] = 1;
+    for (int i = 1; i <= m; i++)
+        f[0][i][0] = 1;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j <= m; j++) {
             for (int k = 0; k < 2; k++) {

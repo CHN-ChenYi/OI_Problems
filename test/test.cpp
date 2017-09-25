@@ -1,7 +1,7 @@
 /*
-Name: title(sourceNo)
+Name: val(LJOJ4529)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 25/09/2017
 */
 #include <cctype>
 #include <cstdio>
@@ -37,8 +37,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("title.in", "r", stdin);
-    freopen("title.out", "w", stdout);
+    freopen("val.in", "r", stdin);
+    freopen("val.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
 

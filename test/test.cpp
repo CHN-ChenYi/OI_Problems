@@ -52,9 +52,7 @@ struct Int {
     void Print_endl() {
         printf("%d\n", num);
     }
-};
-// }f[kMaxN][kMaxN][2], ans;
-int f[kMaxN][kMaxN][2], ans;
+}f[kMaxN][kMaxN][2], ans;
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -88,7 +86,6 @@ int main() {
     }
     for (int i = 0; i <= m; i++)
         ans += f[n][i][1];
-    // ans.Print_endl();
-    printf("%d\n", ans);
+    ans.Print_endl();
     return 0;
 }

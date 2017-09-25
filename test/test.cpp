@@ -80,7 +80,7 @@ int main() {
                         continue;
                     if (!nxt_j)
                         x = 1;
-                    if (nxt_j <= k)
+                    if (nxt_j <= m)
                         f[i + 1][nxt_j][x] += f[i][j][k];
                 }
             }

@@ -73,13 +73,13 @@ int main() {
                 if (!f[i][j][k])
                     continue;
                 for (int s = 0; s < 3; s++) {
-                    int nxt_j = j - step[s], x = k;
+                    int nxt_j = j - step[s], nxt_k = k;
                     if (nxt_j < 0)
                         continue;
                     if (!nxt_j)
-                        x = 1;
+                        nxt_k = 1;
                     if (nxt_j <= m)
-                        f[i + 1][nxt_j][x] += f[i][j][k];
+                        f[i + 1][nxt_j][nxt_k] += f[i][j][k];
                 }
             }
         }

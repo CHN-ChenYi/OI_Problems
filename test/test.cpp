@@ -43,6 +43,13 @@ int ans[kMaxM];
 struct Operate {
     int type;
     int pos, del;
+    Operate() {
+        type = pos = del = 0;
+    }
+    Operate(const int type_, const int pos_) {
+        type = type_;
+        pos = pos_;
+    }
     Operate(const int type_, const int pos_, const int del_) {
         type = type_;
         pos = pos_;
@@ -64,7 +71,26 @@ int main() {
         scan(n);
         m = 0;
         memset(ans, 0, sizeof ans);
-
+        for (int i = 1, x; i <= n; i++) {
+            scan(x);
+            ope[++m] = Operate(0, i, x);
+        }
+        while (true) {
+            scanf("%s", op);
+            if (op[0] == 'E') {
+                break;
+            } else if (op[0] == 'Q') {
+                int l, r;
+                scan(l, r);
+                ope[++m] = Operate(-1, l - 1);
+                ope[++m] = Operate(1, r);
+            } else {
+                int pos, del;
+                scan(pos, del);
+                del *= (op[0] == 'A' ? 1 : -1);
+                ope[++m] = Operate(0, pos, del);
+            }
+        }
     }
     return 0;
 }

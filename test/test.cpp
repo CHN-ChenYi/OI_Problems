@@ -36,26 +36,27 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
-int T, n;
-char op[10];
 int ans[kMaxM];
 
 struct Operate {
     int type;
-    int pos, del;
+    int pos, del_or_id;
     Operate() {
-        type = pos = del = 0;
+        type = pos = del_or_id = 0;
     }
-    Operate(const int type_, const int pos_) {
+    Operate(const int type_, const int pos_, const int del_or_id_) {
         type = type_;
         pos = pos_;
+        del_or_id = del_or_id_;
     }
-    Operate(const int type_, const int pos_, const int del_) {
-        type = type_;
-        pos = pos_;
-        del = del_;
-    }
-}ope[kMaxO]; int m;
+}ope[kMaxO]; int q;
+
+void CDQ(const int l, const int r) {
+
+}
+
+int T, n, m;
+char op[10];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -69,11 +70,11 @@ int main() {
     scan(T);
     for (int t = 1; t <= T; t++) {
         scan(n);
-        m = 0;
+        m = q = 0;
         memset(ans, 0, sizeof ans);
         for (int i = 1, x; i <= n; i++) {
             scan(x);
-            ope[++m] = Operate(0, i, x);
+            ope[++q] = Operate(0, i, x);
         }
         while (true) {
             scanf("%s", op);
@@ -82,15 +83,19 @@ int main() {
             } else if (op[0] == 'Q') {
                 int l, r;
                 scan(l, r);
-                ope[++m] = Operate(-1, l - 1);
-                ope[++m] = Operate(1, r);
+                ope[++q] = Operate(-1, l - 1, ++m);
+                ope[++q] = Operate(1, r, m);
             } else {
                 int pos, del;
                 scan(pos, del);
                 del *= (op[0] == 'A' ? 1 : -1);
-                ope[++m] = Operate(0, pos, del);
+                ope[++q] = Operate(0, pos, del);
             }
         }
+        CDQ(1, q);
+        printf("Case %d:\n", t);
+        for (int i = 1; i <= m; i++)
+            printf("%d\n", ans[i]);
     }
     return 0;
 }

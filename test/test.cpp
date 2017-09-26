@@ -93,20 +93,20 @@ struct Int {
 };
 
 int n, k;
-Int fac[kMaxN], ifac[kMaxN];
+Int fac[kMaxN], inv_fac[kMaxN];
 Int f[kMaxN >> 1][20];
 Int ans, all;
 
 inline Int C(int n, int m) {
-    return fac[n] * ifac[m] * ifac[n - m];
+    return fac[n] * inv_fac[m] * inv_fac[n - m];
 }
 
 void Init() {
-    fac[0] = ifac[0] = 1;
+    fac[0] = inv_fac[0] = 1;
     const int lim = max(n, k);
     for (int i = 1; i <= lim; i++) {
         fac[i] = fac[i - 1] * i;
-        ifac[i] = Inv(fac[i]);
+        inv_fac[i] = Inv(fac[i]);
     }
 }
 
@@ -126,7 +126,7 @@ int main() {
         for (int j = 1; j <= min(k, 15); j++) {
             int x = i;
             while (x) {
-                f[i][j] += f[i ^ x][j - 1] * ifac[x << 1];
+                f[i][j] += f[i ^ x][j - 1] * inv_fac[x << 1];
                 x = (x - 1) & i;
             }
             ans += f[i][j] * fac[i << 1] * C(k, j);

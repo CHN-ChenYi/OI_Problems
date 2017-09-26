@@ -5,6 +5,11 @@ Date: 26/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <algorithm>
+#define kMaxN 60010
+#define kMod 1000000007
+using std::min;
+using std::max;
 
 namespace FastIO {
     template <class T>
@@ -32,6 +37,80 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+template <class T>
+T Inv(T x) {
+    T ret = 1;
+    int n = kMod - 2;
+    while (n) {
+        if (n & 1)
+            ret *= x;
+        x *= x;
+        n >>= 1;
+    }
+    return ret;
+}
+
+struct Int {
+ private:
+    int num;
+    int Mod(const long long x) {
+        return (x % kMod + kMod) % kMod;
+    }
+
+ public:
+    Int() {
+        num = 0;
+    }
+    Int(const int x) {
+        num = x;
+    }
+    Int operator=(const int &rhs) {
+        num = Mod(num + rhs);
+        return *this;
+    }
+    Int operator+(const Int &rhs) {
+        return Int(Mod(num + rhs.num));
+    }
+    Int operator+=(const Int &rhs) {
+        num = Mod(num + rhs.num);
+        return *this;
+    }
+    Int operator-(const Int &rhs) {
+        return Int(Mod(num - rhs.num));
+    }
+    Int operator*(const int &rhs) {
+        return Int(Mod(1ll * num * rhs));
+    }
+    Int operator*(const Int &rhs) {
+        return Int(Mod(1ll * num * rhs.num));
+    }
+    Int operator*=(const Int &rhs) {
+        num = Mod(1ll * num * rhs.num);
+        return *this;
+    }
+    void Print_endl() {
+        printf("%d\n", num);
+    }
+};
+
+int n, k;
+Int fac[kMaxN], ifac[kMaxN];
+Int f[kMaxN >> 1][20];
+Int ans, all;
+
+Int C(int n, int m) {
+    return fac[n] * ifac[m] * ifac[n - m];
+}
+
+void Init() {
+    fac[0] = ifac[0] = 1;
+    const int lim = max(n, k);
+    for (int i = 1; i <= lim; i++) {
+        fac[i] = fac[i - 1] * i;
+        ifac[i] = Inv(fac[i]);
+    }
+}
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -41,6 +120,22 @@ int main() {
     freopen("fun.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    scan(n, k);
+    Init();
+    f[0][0] = 1;
+    for (int i = 1; i <= (n >> 1); i++) {
+        for (int j = 1; j <= min(k, 15); j++) {
+            int x = i;
+            while (x) {
+                f[i][j] += f[i ^ x][j - 1] * ifac[x << 1];
+                x = (x - 1) & i;
+            }
+            ans += f[i][j] * fac[i << 1] * C(k, j);
+        }
+    }
+    while (n--)
+        all = (all + 1) * k;
+    ans = all - ans;
+    ans.Print_endl();
     return 0;
 }

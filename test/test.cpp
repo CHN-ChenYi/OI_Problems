@@ -3,6 +3,7 @@ Name: fun(LJOJ4532)
 Author: godwings
 Date: 26/09/2017
 */
+#pragma GCC optimize(3)
 #include <cctype>
 #include <cstdio>
 #include <algorithm>
@@ -38,7 +39,7 @@ namespace FastIO {
 using FastIO::scan;
 
 template <class T>
-T Inv(T x) {
+inline T Inv(T x) {
     T ret = 1;
     int n = kMod - 2;
     while (n) {
@@ -53,9 +54,6 @@ T Inv(T x) {
 struct Int {
  private:
     int num;
-    int Mod(const long long x) {
-        return (x % kMod + kMod) % kMod;
-    }
 
  public:
     Int() {
@@ -64,29 +62,30 @@ struct Int {
     Int(const int x) {
         num = x;
     }
-    Int operator=(const int &rhs) {
-        num = Mod(num + rhs);
+    inline Int operator=(const int &rhs) {
+        num = (num + rhs) % kMod;
         return *this;
     }
-    Int operator+(const Int &rhs) {
-        return Int(Mod(num + rhs.num));
+    inline Int operator+(const int &rhs) {
+        return Int((num + rhs) % kMod);
     }
-    Int operator+=(const Int &rhs) {
-        num = Mod(num + rhs.num);
-        return *this;
+    inline Int operator+(const Int &rhs) {
+        return Int((num + rhs.num) % kMod);
     }
-    Int operator-(const Int &rhs) {
-        return Int(Mod(num - rhs.num));
+    inline void operator+=(const Int &rhs) {
+        num = (num + rhs.num) % kMod;
     }
-    Int operator*(const int &rhs) {
-        return Int(Mod(1ll * num * rhs));
+    inline Int operator-(const Int &rhs) {
+        return Int(((num - rhs.num) % kMod + kMod) % kMod);
     }
-    Int operator*(const Int &rhs) {
-        return Int(Mod(1ll * num * rhs.num));
+    inline Int operator*(const int &rhs) {
+        return Int(1ll * num * rhs % kMod);
     }
-    Int operator*=(const Int &rhs) {
-        num = Mod(1ll * num * rhs.num);
-        return *this;
+    inline Int operator*(const Int &rhs) {
+        return Int(1ll * num * rhs.num % kMod);
+    }
+    inline void operator*=(const Int &rhs) {
+        num = 1ll * num * rhs.num % kMod;
     }
     void Print_endl() {
         printf("%d\n", num);
@@ -98,7 +97,7 @@ Int fac[kMaxN], ifac[kMaxN];
 Int f[kMaxN >> 1][20];
 Int ans, all;
 
-Int C(int n, int m) {
+inline Int C(int n, int m) {
     return fac[n] * ifac[m] * ifac[n - m];
 }
 

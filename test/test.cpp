@@ -49,10 +49,37 @@ struct Operate {
         pos = pos_;
         del_or_id = del_or_id_;
     }
-}ope[kMaxO]; int q;
+    bool operator < (const Operate &rhs) const {
+        return pos == rhs.pos ? type == 0 : pos < rhs.pos;
+    }
+}ope[kMaxO], tmp[kMaxO]; int q;
 
 void CDQ(const int l, const int r) {
-
+    if (l == r)
+        return;
+    const int m = (l + r) >> 1;
+    CDQ(l, m);
+    CDQ(m + 1, r);
+    int now = l, i = l, j = m + 1, sum = 0;
+    while (i <= m && j <= r) {
+        if (ope[i] < ope[j]) {
+            if (ope[i].type == 1)
+                sum += ope[i].del_or_id;
+            tmp[now++] = ope[i++];
+        } else {
+            if (ope[j].type != 0)
+                ans[ope[j].del_or_id] += sum * ope[j].type;
+            tmp[now++] = ope[j++];
+        }
+    }
+    while (i <= m)
+        tmp[now++] = ope[i++];
+    while (j <= r) {
+        if (ope[j].type != 0)
+            ans[ope[j].del_or_id] += sum * ope[j].type;
+        tmp[now++] = ope[j++];
+    }
+    memcpy(ope + l, tmp + l, (r - l + 1) * sizeof(Operate));
 }
 
 int T, n, m;

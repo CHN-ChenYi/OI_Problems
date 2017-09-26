@@ -73,7 +73,7 @@ int main() {
                 if (!f[i][j][k])
                     continue;
                 for (int s = 0; s < 3; s++) {
-                    int nxt_j = j - step[s], nxt_k = k;
+                    int nxt_j = j + step[s], nxt_k = k;
                     if (nxt_j < 0)
                         continue;
                     if (!nxt_j)

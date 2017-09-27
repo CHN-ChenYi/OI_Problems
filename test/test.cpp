@@ -63,7 +63,7 @@ void CDQ(const int l, const int r) {
     int now = l, i = l, j = m + 1, sum = 0;
     while (i <= m && j <= r) {
         if (ope[i] < ope[j]) {
-            if (ope[i].type == 1)
+            if (ope[i].type == 0)
                 sum += ope[i].del_or_id;
             tmp[now++] = ope[i++];
         } else {

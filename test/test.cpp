@@ -1,7 +1,7 @@
 /*
 Name: Jam(HDU5618)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 27/09/2017
 */
 #include <cctype>
 #include <cstdio>

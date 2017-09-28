@@ -86,7 +86,7 @@ void CDQ(const int l, const int r) {
     CDQ(1, m); CDQ(m + 1, r);
     for (int i = l, left_ptr = l, right_ptr = m + 1; i <= r; i++) {
         if (left_ptr <= m && (right_ptr > r || a[left_ptr].y < a[right_ptr].y)) {
-            tree.Modify(a[left_ptr].y, 1);
+            tree.Modify(a[left_ptr].z, 1);
             tmp[i] = a[left_ptr++];
         } else {
             ans[a[right_ptr].id] += tree.Query(a[right_ptr].z);

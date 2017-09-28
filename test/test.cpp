@@ -5,7 +5,10 @@ Date: 27/09/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <cstring>
+#include <algorithm>
 const int kMaxN = 1e5 + 10;
+using std::sort;
 
 namespace FastIO {
     template <class T>
@@ -60,6 +63,26 @@ public:
     }
 };
 
+int T, n;
+int ans[kMaxN];
+
+struct Point {
+    int x, y, z;
+    int ans, id;
+    bool operator==(const Point &rhs) const {
+        return x == rhs.x && y == rhs.y && z == rhs.z;
+    }
+    bool operator<(const Point &rhs) const {
+        if (x != rhs.x)
+            return x < rhs.x;
+        return y != rhs.y ? y < rhs.y : z < rhs.z;
+    }
+}a[kMaxN], tmp[kMaxN];
+
+void CDQ(const int l, const int r) {
+
+}
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -69,6 +92,23 @@ int main() {
     freopen("Jam.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
-
+    scan(T);
+    while (T--) {
+        scan(n);
+        for (int i = 1; i <= n; i++) {
+            scan(a[i].x, a[i].y, a[i].z);
+            a[i].id = i; a[i].ans = 0;
+        }
+        sort(a + 1, a + 1 + n);
+        for (int i = n - 1; i; i--) {
+            if (a[i] == a[i + 1])
+                a[i].ans = a[i + 1].ans + 1;
+        }
+        CDQ(1, n);
+        for (int i = 1; i <= n; i++)
+            ans[a[i].id] = a[i].ans;
+        for (int i = 1; i <= n; i++)
+            printf("%d\n", ans[i]);
+    }
     return 0;
 }

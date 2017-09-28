@@ -67,8 +67,7 @@ int T, n;
 int ans[kMaxN];
 
 struct Point {
-    int id;
-    int x, y, z;
+    int x, y, z, id;
     bool operator==(const Point &rhs) const {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
@@ -83,7 +82,7 @@ void CDQ(const int l, const int r) {
     if (l == r)
         return;
     const int m = (l + r) >> 1;
-    CDQ(1, m); CDQ(m + 1, r);
+    CDQ(l, m); CDQ(m + 1, r);
     for (int i = l, left_ptr = l, right_ptr = m + 1; i <= r; i++) {
         if (left_ptr <= m && (right_ptr > r || a[left_ptr].y < a[right_ptr].y)) {
             tree.Modify(a[left_ptr].z, 1);

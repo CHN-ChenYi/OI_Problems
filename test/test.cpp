@@ -61,7 +61,7 @@ public:
         }
         return ret;
     }
-};
+}tree;
 
 int T, n;
 int ans[kMaxN];
@@ -80,7 +80,22 @@ struct Point {
 }a[kMaxN], tmp[kMaxN];
 
 void CDQ(const int l, const int r) {
-
+    if (l == r)
+        return;
+    const int m = (l + r) >> 1;
+    CDQ(1, m); CDQ(m + 1, r);
+    for (int i = l, left_ptr = l, right_ptr = m + 1; i <= r; i++) {
+        if (left_ptr <= m && (right_ptr > r || a[left_ptr].y < a[right_ptr].y)) {
+            tree.Modify(a[left_ptr].y, 1);
+            tmp[i] = a[left_ptr++];
+        } else {
+            a[right_ptr].ans += tree.Query(a[right_ptr].z);
+            tmp[i] = a[right_ptr++];
+        }
+    }
+    for (int i = l; i <= m; i++)
+        tree.Modify(a[i].z, -1);
+    memcpy(a + l, tmp + l, (r - l + 1) * sizeof(Point));
 }
 
 int main() {

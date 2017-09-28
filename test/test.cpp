@@ -109,6 +109,7 @@ int main() {
     scan(T);
     while (T--) {
         scan(n);
+        tree.Init(n);
         for (int i = 1; i <= n; i++) {
             scan(a[i].x, a[i].y, a[i].z);
             a[i].id = i;

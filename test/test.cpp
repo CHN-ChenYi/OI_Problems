@@ -8,6 +8,7 @@ Date: 27/09/2017
 #include <cstring>
 #include <algorithm>
 const int kMaxN = 1e5 + 10;
+using std::max;
 using std::sort;
 
 namespace FastIO {
@@ -64,6 +65,7 @@ public:
 }tree;
 
 int T, n;
+int max_z;
 int ans[kMaxN];
 
 struct Point {
@@ -109,11 +111,13 @@ int main() {
     scan(T);
     while (T--) {
         scan(n);
-        tree.Init(n);
+        max_z = 0;
         for (int i = 1; i <= n; i++) {
             scan(a[i].x, a[i].y, a[i].z);
+            max_z = max(max_z, a[i].z);
             a[i].id = i;
         }
+        tree.Init(max_z);
         sort(a + 1, a + 1 + n);
         for (int i = n - 1; i; i--) {
             if (a[i] == a[i + 1])

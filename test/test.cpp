@@ -67,8 +67,8 @@ int T, n;
 int ans[kMaxN];
 
 struct Point {
+    int id;
     int x, y, z;
-    int ans, id;
     bool operator==(const Point &rhs) const {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
@@ -89,7 +89,7 @@ void CDQ(const int l, const int r) {
             tree.Modify(a[left_ptr].y, 1);
             tmp[i] = a[left_ptr++];
         } else {
-            a[right_ptr].ans += tree.Query(a[right_ptr].z);
+            ans[a[right_ptr].id] += tree.Query(a[right_ptr].z);
             tmp[i] = a[right_ptr++];
         }
     }
@@ -112,16 +112,14 @@ int main() {
         scan(n);
         for (int i = 1; i <= n; i++) {
             scan(a[i].x, a[i].y, a[i].z);
-            a[i].id = i; a[i].ans = 0;
+            a[i].id = i;
         }
         sort(a + 1, a + 1 + n);
         for (int i = n - 1; i; i--) {
             if (a[i] == a[i + 1])
-                a[i].ans = a[i + 1].ans + 1;
+                ans[a[i].id] = ans[a[i + 1].id] + 1;
         }
         CDQ(1, n);
-        for (int i = 1; i <= n; i++)
-            ans[a[i].id] = a[i].ans;
         for (int i = 1; i <= n; i++)
             printf("%d\n", ans[i]);
     }

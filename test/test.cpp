@@ -78,6 +78,9 @@ struct Point {
             return x < rhs.x;
         return y != rhs.y ? y < rhs.y : z < rhs.z;
     }
+    bool CmpWithoutX(const Point &rhs) const {
+        return y != rhs.y ? y < rhs.y : z < rhs.z;
+    }
 }a[kMaxN], tmp[kMaxN];
 
 void CDQ(const int l, const int r) {
@@ -86,7 +89,7 @@ void CDQ(const int l, const int r) {
     const int m = (l + r) >> 1;
     CDQ(l, m); CDQ(m + 1, r);
     for (int i = l, left_ptr = l, right_ptr = m + 1; i <= r; i++) {
-        if (left_ptr <= m && (right_ptr > r || a[left_ptr].y < a[right_ptr].y)) {
+        if (left_ptr <= m && (right_ptr > r || a[left_ptr].CmpWithoutX(a[right_ptr]))) {
             tree.Modify(a[left_ptr].z, 1);
             tmp[i] = a[left_ptr++];
         } else {

@@ -49,7 +49,7 @@ public:
         n = n_;
     }
     void Modify(int pos, int del) {
-        while (pos < n) {
+        while (pos <= n) {
             tr[pos] += del;
             pos += lowbit(pos);
         }
@@ -79,7 +79,7 @@ struct Point {
         return y != rhs.y ? y < rhs.y : z < rhs.z;
     }
     bool CmpWithoutX(const Point &rhs) const {
-        return y != rhs.y ? y < rhs.y : z < rhs.z;
+        return y != rhs.y ? y < rhs.y : z <= rhs.z;
     }
 }a[kMaxN], tmp[kMaxN];
 

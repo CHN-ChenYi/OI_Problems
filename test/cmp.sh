@@ -1,9 +1,10 @@
 declare -i cnt=0
-while true; do
+for ((;;)) do
     ./gen.exeout
     ./correct.exeout
     ./test.exeout
-    diff test.out test.ans
-    if [ $? -ne 0 ]; then break; fi
+    diff test.out test.ans -wbZB
+    if [ $? -ne 0 ];
+    then break; fi
     echo $((++cnt))
 done

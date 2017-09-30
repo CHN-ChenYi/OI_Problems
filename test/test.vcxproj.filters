@@ -21,6 +21,9 @@
     <ClCompile Include="correct.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="gen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.in">

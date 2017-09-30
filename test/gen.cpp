@@ -6,9 +6,9 @@ inline int rand(const int lim) {
     return rand() * rand() % lim + 1;
 }
 
-const int T = 15;
-const int N = 100000;
-const int M = 100000;
+const int T = 10;
+const int N = 10;
+const int M = 100;
 
 int t, n, m;
 

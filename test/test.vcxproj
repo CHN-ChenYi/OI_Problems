@@ -30,6 +30,7 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="test.ans" />
     <None Include="test.in" />
     <None Include="test.out" />
   </ItemGroup>

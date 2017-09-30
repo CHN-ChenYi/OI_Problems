@@ -44,6 +44,8 @@ void solve(int l, int r) {
 }
 
 int main() {
+    freopen("test.in", "r", stdin);
+    freopen("test.ans", "w", stdout);
     scanf("%d", &t);
     while (t--) {
         scanf("%d", &n);

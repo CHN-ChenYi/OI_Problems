@@ -107,8 +107,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("Jam.in", "r", stdin);
-    freopen("Jam.out", "w", stdout);
+    freopen("test.in", "r", stdin);
+    freopen("test.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
     scan(T);

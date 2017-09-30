@@ -115,6 +115,7 @@ int main() {
     while (T--) {
         scan(n);
         max_z = 0;
+        memset(ans, 0, sizeof ans);
         for (int i = 1; i <= n; i++) {
             scan(a[i].x, a[i].y, a[i].z);
             max_z = max(max_z, a[i].z);

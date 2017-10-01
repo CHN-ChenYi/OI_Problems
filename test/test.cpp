@@ -50,7 +50,26 @@ vec len[kMaxM];
 int weight[kMaxM];
 
 void DFS(vec &now, const int l, const int r, const int s) {
-
+    if (s) {
+        DFS(now, l | (s & -s), r, s ^ (s & -s));
+        DFS(now, l, r | (s & -s), s ^ (s & -s));
+    } else {
+        if (l != 0 && r != 0) {
+            const vec &l_vec = len[l], r_vec = len[r];
+            const int l_w = weight[l], r_w = weight[r];
+            const double l_l = double(r_w) / (l_w + r_w);
+            const double r_l = double(l_w) / (l_w + r_w);
+            for (int i = l_vec.size() - 1; i >= 0; i--) {
+                const double l_len = l_vec[i].first, r_len = l_vec[i].second;
+                for (int j = r_vec.size() - 1; j >= 0; j--) {
+                    const par tmp(max(l_len + l_l, r_vec[j].first - r_l),
+                                  max(r_len - l_l, r_vec[j].second + r_l));
+                    if (tmp.first + tmp.second <= W)
+                        now.push_back(tmp);
+                }
+            }
+        }
+    }
 }
 
 int main() {

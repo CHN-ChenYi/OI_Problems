@@ -3,6 +3,7 @@ Name: economic(LJOJ4548)
 Author: godwings
 Date: 01/10/2017
 */
+#pragma GCC optimize(2)
 #include <cctype>
 #include <cstdio>
 #include <vector>

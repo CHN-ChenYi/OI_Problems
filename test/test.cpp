@@ -5,6 +5,11 @@ Date: 01/10/2017
 */
 #include <cctype>
 #include <cstdio>
+#include <vector>
+#include <algorithm>
+using std::max;
+using std::vector;
+const int kMaxN = 20;
 
 namespace FastIO {
     template <class T>
@@ -32,6 +37,11 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+int T;
+int n;
+double W;
+int a[kMaxN];
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -41,6 +51,12 @@ int main() {
     freopen("economic.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif
+    scan(T);
+    while (T--) {
+        scanf("%lf", &W); scan(n);
+        for (int i = 1; i <= n; i++)
+            scan(a[i]);
 
+    }
     return 0;
 }

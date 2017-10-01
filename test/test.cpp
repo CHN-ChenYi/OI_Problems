@@ -3,31 +3,64 @@ Name: title(sourceNo)
 Author: godwings
 Date: DD/MM/YYYY
 */
-#include <cctype>
 #include <cstdio>
 
+#include <cctype>
 namespace FastIO {
     template <class T>
     inline void scan(T &x) {
-        bool positive = 1;
+        x = 0;
         char c;
-        while (isdigit(c = getchar()) == 0) {
+        bool positive = 1;
+        while (!isdigit(c = getchar())) {
             if (!positive) positive = 1;
             if (c == '-') positive = 0;
         }
-        x = 0;
-        for (; isdigit(c) != 0; c = getchar())
+        while (isdigit(c)) {
             x = x * 10 + (c & 0xf);
+            c = getchar();
+        }
         if (!positive)
             x *= -1;
     }
-    template <class T>
-    inline void scan(T &x, T &y) {
-        scan(x); scan(y);
+    inline void scan(char &x) {
+        while (!isgraph(x = getchar())) { }
     }
-    template <class T>
-    inline void scan(T &x, T &y, T &z) {
-        scan(x); scan(y); scan(z);
+    inline void scan(double &x) {
+        x = 0;
+        char c;
+        bool positive = 1;
+        while (!isdigit(c = getchar())) {
+            if (!positive) positive = 1;
+            if (c == '-') positive = 0;
+        }
+        while (isdigit(c)) {
+            x = x * 10 + (c & 0xf);
+            c = getchar();
+        }
+        if (c == '.') {
+            double now = 0.1;
+            c = getchar();
+            while (isdigit(c)) {
+                x += now * (c & 0xf);
+                now *= 0.1;
+                c = getchar();
+            }
+        }
+        if (!positive)
+            x *= -1;
+    }
+    template <class T_1, class T_2>
+    inline void scan(T_1 &a, T_2 &b) {
+        scan(a); scan(b);
+    }
+    template <class T_1, class T_2, class T_3>
+    inline void scan(T_1 &a, T_2 &b, T_3 &c) {
+        scan(a); scan(b); scan(c);
+    }
+    template <class T_1, class T_2, class T_3, class T_4>
+    inline void scan(T_1 &a, T_2 &b, T_3 &c, T_4 &d) {
+        scan(a); scan(b); scan(c); scan(d);
     }
 }  // namespace FastIO
 using FastIO::scan;
@@ -40,7 +73,7 @@ int main() {
     freopen("title.in", "r", stdin);
     freopen("title.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
-#endif
+#endif  // ONLINE_JUDGE
 
     return 0;
 }

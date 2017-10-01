@@ -58,6 +58,10 @@ namespace FastIO {
     inline void scan(T_1 &a, T_2 &b, T_3 &c) {
         scan(a); scan(b); scan(c);
     }
+    template <class T_1, class T_2, class T_3, class T_4>
+    inline void scan(T_1 &a, T_2 &b, T_3 &c, T_4 &d) {
+        scan(a); scan(b); scan(c); scan(d);
+    }
 }  // namespace FastIO
 using FastIO::scan;
 

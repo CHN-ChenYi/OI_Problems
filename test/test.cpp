@@ -69,7 +69,7 @@ int main() {
     freopen("title.in", "r", stdin);
     freopen("title.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
-#endif
+#endif  // ONLINE_JUDGE
 
     return 0;
 }

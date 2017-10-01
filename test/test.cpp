@@ -3,21 +3,23 @@ Name: title(sourceNo)
 Author: godwings
 Date: DD/MM/YYYY
 */
-#include <cctype>
 #include <cstdio>
 
+#include <cctype>
 namespace FastIO {
     template <class T>
     inline void scan(T &x) {
-        bool positive = 1;
+        x = 0;
         char c;
-        while (isdigit(c = getchar()) == 0) {
+        bool positive = 1;
+        while (!isdigit(c = getchar())) {
             if (!positive) positive = 1;
             if (c == '-') positive = 0;
         }
-        x = 0;
-        for (; isdigit(c) != 0; c = getchar())
+        while (isdigit(c)) {
             x = x * 10 + (c & 0xf);
+            c = getchar();
+        }
         if (!positive)
             x *= -1;
     }

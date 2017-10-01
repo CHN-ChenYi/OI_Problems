@@ -50,13 +50,13 @@ namespace FastIO {
         if (!positive)
             x *= -1;
     }
-    template <class T>
-    inline void scan(T &x, T &y) {
-        scan(x); scan(y);
+    template <class T_1, class T_2>
+    inline void scan(T_1 &a, T_2 &b) {
+        scan(a); scan(b);
     }
-    template <class T>
-    inline void scan(T &x, T &y, T &z) {
-        scan(x); scan(y); scan(z);
+    template <class T_1, class T_2, class T_3>
+    inline void scan(T_1 &a, T_2 &b, T_3 &c) {
+        scan(a); scan(b); scan(c);
     }
 }  // namespace FastIO
 using FastIO::scan;

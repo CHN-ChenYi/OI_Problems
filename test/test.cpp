@@ -23,6 +23,33 @@ namespace FastIO {
         if (!positive)
             x *= -1;
     }
+    inline void scan(char &x) {
+        while (!isgraph(x = getchar())) { }
+    }
+    inline void scan(double &x) {
+        x = 0;
+        char c;
+        bool positive = 1;
+        while (!isdigit(c = getchar())) {
+            if (!positive) positive = 1;
+            if (c == '-') positive = 0;
+        }
+        while (isdigit(c)) {
+            x = x * 10 + (c & 0xf);
+            c = getchar();
+        }
+        if (c == '.') {
+            double now = 0.1;
+            c = getchar();
+            while (isdigit(c)) {
+                x += now * (c & 0xf);
+                now *= 0.1;
+                c = getchar();
+            }
+        }
+        if (!positive)
+            x *= -1;
+    }
     template <class T>
     inline void scan(T &x, T &y) {
         scan(x); scan(y);

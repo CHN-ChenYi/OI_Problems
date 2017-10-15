@@ -165,7 +165,7 @@ inline void Query(const int &idx, const int &l, const int &r) {
     ope[++ope_tot] = Operation(idx, l - 1, l - 1, 1);
     ope[++ope_tot] = Operation(idx, r, r, 1);
     ope[++ope_tot] = Operation(idx, l - 1, r, -1);
-    ope[++ope_tot] = Operation(idx, l, l - 1, -1);
+    ope[++ope_tot] = Operation(idx, r, l - 1, -1);
 }
 
 void CDQ(const int &l, const int &r) {

@@ -107,9 +107,10 @@ struct BinaryIndexedTree {
 }BIT;
 
 int n, m;
-set<int> s;
 int ans_tot;
+int a[kMaxN];
 char str[20];
+set<int> s[kMaxN];
 
 struct Operation {
     int idx; // 0->Modify
@@ -127,7 +128,37 @@ struct Operation {
     }
 }ope[kMaxM], tmp[kMaxM]; int ope_tot;
 inline void Modify(const int &pos, const int &val) {
-
+    if (a[pos]) {
+        int x = 0;
+        set<int>::iterator it = s[a[pos]].find(pos);
+        if (it != s[a[pos]].begin()) {
+            x = *(--it);
+            it++;
+            ope[++ope_tot] = Operation(0, pos, x, x - pos);
+        }
+        it++;
+        if (it != s[a[pos]].end()) {
+            ope[++ope_tot] = Operation(0, *it, pos, pos - *it);
+            if (x)
+                ope[++ope_tot] = Operation(0, *it, x, *it - x);
+        }
+        s[a[pos]].erase(x);
+    }
+    s[val].insert(pos);
+    set<int>::iterator it = s[val].find(pos);
+    int x = 0;
+    if (it != s[val].begin()) {
+        x = *(--it);
+        it++;
+        ope[++ope_tot] = Operation(0, pos, x, pos - x);
+    }
+    it++;
+    if (it != s[val].end()) {
+        ope[++ope_tot] = Operation(0, *it, pos, *it - pos);
+        if (x)
+            ope[++ope_tot] = Operation(0, *it, x, x - *it);
+    }
+    a[pos] = val;
 }
 inline void Query(const int &idx, const int &l, const int &r) {
     ope[++ope_tot] = Operation(idx, l - 1, l - 1, 1);

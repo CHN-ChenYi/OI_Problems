@@ -88,6 +88,34 @@ int main() {
             matrix[i][j] = input - '0';
         }
     }
+    sum_u[0][0] = matrix[0][0];
+    for (int j = 2; j < m; j++) {
+        if (j % 3 == 0)
+            sum_u[0][j] = matrix[0][j] - sum_u[0][j - 1];
+        else if (j % 3 == 2)
+            sum_u[0][j] = matrix[0][j - 1] - sum_u[0][j - 2];
+    }
+    for (int i = 2; i < n; i++) {
+        int last_mat, last_sum;
+        switch (i % 3) {
+            case 0:
+                last_mat = i;
+                last_sum = i - 1;
+                break;
+            case 1:
+                continue;
+            default:
+                last_mat = i - 1;
+                last_sum = i - 2;
+        }
+        sum_u[i][0] = matrix[last_mat][0] - sum_u[last_sum][0];
+        for (int j = 2; j < m; j++) {
+            if (j % 3 == 0)
+                sum_u[i][j] = matrix[last_mat][j] - sum_u[last_sum][j] - sum_u[last_sum][j - 1] - sum_u[i][j - 1];
+            else
+                sum_u[i][j] = matrix[last_mat][j] - sum_u[last_sum][j] - sum_u[last_sum][j - 2] - sum_u[i][j - 2];
+        }
+    }
 
     return 0;
 }

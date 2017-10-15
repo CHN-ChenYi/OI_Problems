@@ -125,7 +125,7 @@ struct Operation {
         val = val_;
     }
     bool operator<(const Operation &rhs) const {
-        return idx < rhs.idx;
+        return x != rhs.x ? x < rhs.x : idx < rhs.idx;
     }
 }ope[kMaxM], tmp[kMaxM]; int ope_tot;
 inline void Modify(const int &pos, const int &val) {
@@ -169,7 +169,26 @@ inline void Query(const int &idx, const int &l, const int &r) {
 }
 
 void CDQ(const int &l, const int &r) {
-
+    if (l == r)
+        return;
+    const int m = (l + r) >> 1;
+    CDQ(l, m); CDQ(m + 1, r);
+    for (int i = l, left_ptr = l, right_ptr = m + 1; i <= r; i++) {
+        if (left_ptr <= m && (right_ptr > r || ope[left_ptr] < ope[right_ptr])) {
+            if (!ope[left_ptr].idx)
+                BIT.Modify(ope[left_ptr].y, ope[left_ptr].val);
+            tmp[i] = ope[left_ptr++];
+        } else {
+            if (ope[right_ptr].idx)
+                ans[ope[right_ptr].idx] += BIT.Query(ope[right_ptr].y) * ope[right_ptr].val;
+            tmp[i] = ope[right_ptr++];
+        }
+    }
+    for (int i = l; i <= m; i++) {
+        if (!ope[i].idx)
+            BIT.Reset(ope[i].y);
+    }
+    memcpy(ope, tmp, (r - l + 1) * sizeof(Operation));
 }
 
 int main() {

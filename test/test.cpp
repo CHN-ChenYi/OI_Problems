@@ -1,7 +1,7 @@
 /*
-Name: title(sourceNo)
+Name: matrices(LJOJ4560)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 15/10/2017
 */
 #include <cstdio>
 
@@ -70,8 +70,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
     freopen("test.in", "r", stdin);
 #else
-    freopen("title.in", "r", stdin);
-    freopen("title.out", "w", stdout);
+    freopen("matrices.in", "r", stdin);
+    freopen("matrices.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif  // ONLINE_JUDGE
 

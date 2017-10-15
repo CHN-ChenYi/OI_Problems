@@ -125,12 +125,15 @@ struct Operation {
     bool operator<(const Operation &rhs) const {
         return idx < rhs.idx;
     }
-}ope[kMaxM], tmp[kMaxM];
+}ope[kMaxM], tmp[kMaxM]; int ope_tot;
 inline void Modify(const int &pos, const int &val) {
 
 }
 inline void Query(const int &idx, const int &l, const int &r) {
-
+    ope[++ope_tot] = Operation(idx, l - 1, l - 1, 1);
+    ope[++ope_tot] = Operation(idx, r, r, 1);
+    ope[++ope_tot] = Operation(idx, l - 1, r, -1);
+    ope[++ope_tot] = Operation(idx, l, l - 1, -1);
 }
 
 int main() {

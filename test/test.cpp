@@ -77,11 +77,9 @@ inline int gcd(int a, int b) {
     return a;
 }
 
-int ans;
 int n, m;
 char input;
 int matrix[kMaxN][kMaxN];
-int sum_u[kMaxN][kMaxN], sum_d[kMaxN][kMaxN];
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -99,82 +97,6 @@ int main() {
             matrix[i][j] = input - '0';
         }
     }
-    sum_u[0][0] = matrix[0][0];
-    for (int j = 2; j < m; j++) {
-        if (j % 3 == 0)
-            sum_u[0][j] = matrix[0][j] - sum_u[0][j - 1];
-        else if (j % 3 == 2)
-            sum_u[0][j] = matrix[0][j - 1] - sum_u[0][j - 2];
-    }
-    for (int i = 2; i < n; i++) {
-        int last_mat, last_sum;
-        switch (i % 3) {
-            case 0:
-                last_mat = i;
-                last_sum = i - 1;
-                break;
-            case 1:
-                continue;
-            default:
-                last_mat = i - 1;
-                last_sum = i - 2;
-        }
-        sum_u[i][0] = matrix[last_mat][0] - sum_u[last_sum][0];
-        for (int j = 2; j < m; j++) {
-            if (j % 3 == 0)
-                sum_u[i][j] = matrix[last_mat][j] - sum_u[last_sum][j] - sum_u[last_sum][j - 1] - sum_u[i][j - 1];
-            else
-                sum_u[i][j] = matrix[last_mat][j] - sum_u[last_sum][j] - sum_u[last_sum][j - 2] - sum_u[i][j - 2];
-        }
-    }
-    sum_d[n - 2][0] = matrix[n - 1][0];
-    for (int j = 2; j < m; j++) {
-        if (j % 3 == 0)
-            sum_d[n - 2][j] = matrix[n - 1][j] - sum_d[n - 2][j - 1];
-        else if (j % 3 == 2)
-            sum_d[n - 2][j] = matrix[n - 1][j - 1] - sum_d[n - 2][j - 2];
-    }
-    for (int i = n - 3; i >= 0; i--) {
-        int last_sum;
-        const int last_matrix = i + 1;
-        switch ((n - i) % 3) {
-            case 0:
-                last_sum = i + 1;
-                break;
-            case 1:
-                continue;
-            default:
-                last_sum = i + 2;
-        }
-        sum_d[i][0] = matrix[last_matrix][0] - sum_d[last_sum][0];
-        for (int j = 2; j < m; j++) {
-            if (j % 3 == 0)
-                sum_d[i][j] = matrix[last_matrix][j] - sum_d[last_sum][j] - sum_d[last_sum][j - 1] - sum_d[i][j - 1];
-            else if (j % 3 == 2)
-                sum_d[i][j] = matrix[last_matrix][j] - sum_d[last_sum][j] - sum_d[last_sum][j - 2] - sum_d[i][j - 2];
-        }
-    }
-    const int o = n >> 1;
-    switch (n % 6) {
-        case 1:
-            for (int j = 0; j < m; j++) {
-                if (j % 3 != 1)
-                    ans += sum_u[o][j] - sum_d[o + 1][j];
-            }
-            break;
-        case 3:
-            for (int j = 0; j < m; j++) {
-                if (j % 3 != 1)
-                    ans += sum_u[o - 1][j] - sum_d[o - 1][j];
-            }
-            break;
-        case 5:
-            for (int j = 0; j < m; j++) {
-                if (j % 3 != 1)
-                    ans += sum_u[o][j];
-            }
-    }
-    const int k = gcd(m, ans);
-    printf("%d/%d\n", (m - ans) / k, m / k);
+
     return 0;
 }

@@ -110,6 +110,7 @@ int n, m;
 int ans_tot;
 int a[kMaxN];
 char str[20];
+LL ans[kMaxN];
 set<int> s[kMaxN];
 
 struct Operation {
@@ -167,6 +168,10 @@ inline void Query(const int &idx, const int &l, const int &r) {
     ope[++ope_tot] = Operation(idx, l, l - 1, -1);
 }
 
+void CDQ(const int &l, const int &r) {
+
+}
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -190,6 +195,8 @@ int main() {
         else
             Modify(x, y);
     }
-
+    CDQ(1, ope_tot);
+    for (int i = 1; i <= ans_tot; i++)
+        printf("%lld\n", ans[i]);
     return 0;
 }

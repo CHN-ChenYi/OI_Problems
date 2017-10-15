@@ -1,117 +1,26 @@
-#include <cstdio>
-#define N 1000
-int mat[N][N], s_u[N][N], s_d[N][N];
-inline int gcd(int a, int b) {
-    for (;;) {
-        if (a == 0)
-            return b;
-        b %= a;
-        if (b == 0)
-            return a;
-        a %= b;
-    }
+#include<cstdio>
+int Ans, n, m, f[1010][1010], h[1010], g[1010];
+int gcd(int a, int b) { return b ? gcd(b, a%b) : a; }
+int get() { char c = getchar(); while (c<'0' || c>'9') c = getchar(); return c - '0'; }
+int find(int x) {
+    int c = 0, z = 0;
+    for (int i = 2; i<m; i += 3) c += f[x][i], z += f[x][i] - f[x][i - 1];
+    if (m % 3 == 0) return c;
+    if (m % 3 == 1) return c + f[x][m] - z;
+    if (m % 3 == 2) return c + f[x][m];
 }
 int main() {
     freopen("matrices.in", "r", stdin);
     freopen("matrices.out", "w", stdout);
-    int n, m;
     scanf("%d%d", &n, &m);
-    for (int i = 0; i < n; ++i) {
-        char c;
-        while ((c = getchar()) >> 4 != 3);
-        mat[i][0] = c - '0';
-        for (int j = 1; j < m; ++j)
-            mat[i][j] = getchar() - '0';
-    }
-    s_u[0][0] = mat[0][0];
-    for (int j = 2; j < m; ++j)
-        switch (j % 3) {
-            case 0:
-                s_u[0][j] = mat[0][j] - s_u[0][j - 1];
-                break;
-            case 2:
-                s_u[0][j] = mat[0][j - 1] - s_u[0][j - 2];
-                break;
-        }
-    for (int i = 2; i < n; ++i) {
-        int last_mat, last_s;
-        switch (i % 3) {
-            case 0:
-                last_mat = i;
-                last_s = i - 1;
-                break;
-            case 1:
-                continue;
-            default:
-                last_mat = i - 1;
-                last_s = i - 2;
-        }
-        s_u[i][0] = mat[last_mat][0] - s_u[last_s][0];
-        for (int j = 2; j < m; ++j)
-            switch (j % 3) {
-                case 0:
-                    s_u[i][j] = mat[last_mat][j] - s_u[last_s][j]
-                        - s_u[last_s][j - 1] - s_u[i][j - 1];
-                    break;
-                case 2:
-                    s_u[i][j] = mat[last_mat][j] - s_u[last_s][j]
-                        - s_u[last_s][j - 2] - s_u[i][j - 2];
-                    break;
-            }
-    }
-    s_d[n - 2][0] = mat[n - 1][0];
-    for (int j = 2; j < m; ++j)
-        switch (j % 3) {
-            case 0:
-                s_d[n - 2][j] = mat[n - 1][j] - s_d[n - 2][j - 1];
-                break;
-            case 2:
-                s_d[n - 2][j] = mat[n - 1][j - 1] - s_d[n - 2][j - 2];
-                break;
-        }
-    for (int i = n - 3; i >= 0; --i) {
-        int last_mat = i + 1, last_s;
-        switch ((n - i) % 3) {
-            case 0:
-                last_s = i + 1;
-                break;
-            case 1:
-                continue;
-            default:
-                last_s = i + 2;
-        }
-        s_d[i][0] = mat[last_mat][0] - s_d[last_s][0];
-        for (int j = 2; j < m; ++j)
-            switch (j % 3) {
-                case 0:
-                    s_d[i][j] = mat[last_mat][j] - s_d[last_s][j]
-                        - s_d[last_s][j - 1] - s_d[i][j - 1];
-                    break;
-                case 2:
-                    s_d[i][j] = mat[last_mat][j] - s_d[last_s][j]
-                        - s_d[last_s][j - 2] - s_d[i][j - 2];
-                    break;
-            }
-    }
-    int ans = 0;
-    const int tmp_n = n >> 1;
-    switch (n % 6) {
-        case 1:
-            for (int j = 0; j < m; ++j)
-                if (j % 3 != 1)
-                    ans += s_u[tmp_n][j] - s_d[tmp_n + 1][j];
-            break;
-        case 3:
-            for (int j = 0; j < m; ++j)
-                if (j % 3 != 1)
-                    ans += s_u[tmp_n - 1][j] - s_d[tmp_n - 1][j];
-            break;
-        case 5:
-            for (int j = 0; j < m; ++j)
-                if (j % 3 != 1)
-                    ans += s_u[tmp_n][j];
-    }
-    int g = gcd(m, ans);
-    printf("%d/%d\n", (m - ans) / g, m / g);
+    for (int i = 1; i <= n; i++) for (int j = 1; j <= m; j++) f[i][j] = get();
+    for (int i = 2; i<n; i += 3) h[i + 1] = h[i - 2] + find(i) - find(i - 1);
+    for (int i = n - 1; i>1; i -= 3) g[i - 1] = g[i + 2] + find(i) - find(i + 1);
+    if (n % 3 == 2) Ans = h[n + 1 >> 1];
+    if (n % 3 == 1) Ans = find(n + 1 >> 1) - h[n >> 1] - g[n + 3 >> 1];
+    if (n % 3 == 0) Ans = find(n + 1 >> 1) - g[n >> 1] - h[n + 3 >> 1];
+    Ans = m - Ans;
+    int d = gcd(Ans, m);
+    Ans /= d; m /= d; printf("%d/%d\n", Ans, m);
     return 0;
 }

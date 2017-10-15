@@ -3,7 +3,14 @@ Name: strings(LJOJ4561)
 Author: godwings
 Date: 15/10/2017
 */
+#include <set>
 #include <cstdio>
+#include <cstring>
+using std::set;
+
+typedef long long LL;
+const int kMaxN = 1e5 + 10;
+const int kMaxM = kMaxN << 2;
 
 #include <cctype>
 namespace FastIO {
@@ -64,6 +71,25 @@ namespace FastIO {
     }
 }  // namespace FastIO
 using FastIO::scan;
+
+int n, m;
+set<int> s;
+
+struct Operation {
+    int idx; // 0->Modify
+    int x, y; // x->i, y->pre[i]
+    int val;
+    Operation() { }
+    Operation(const int &idx_, const int &x_, const int &y_, const int &val_) {
+        idx = idx_;
+        x = x_;
+        y = y_;
+        val = val_;
+    }
+    bool operator<(const Operation &rhs) const {
+        return idx < rhs.idx;
+    }
+}ope[kMaxM], tmp[kMaxM];
 
 int main() {
 #ifndef ONLINE_JUDGE

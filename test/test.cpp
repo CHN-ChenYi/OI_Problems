@@ -67,6 +67,17 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+inline int gcd(int a, int b) {
+    int t;
+    while (b) {
+        t = a % b;
+        a = b;
+        b = t;
+    }
+    return a;
+}
+
+int ans;
 int n, m;
 char input;
 int matrix[kMaxN][kMaxN];
@@ -142,5 +153,27 @@ int main() {
                 sum_d[i][j] = matrix[last_matrix][j] - sum_d[last_sum][j] - sum_d[last_sum][j - 2] - sum_d[i][j - 2];
         }
     }
+    const int o = n >> 1;
+    switch (n % 6) {
+        case 1:
+            for (int j = 0; j < m; ++j) {
+                if (j % 3 != 1)
+                    ans += sum_u[o][j] - sum_d[o + 1][j];
+            }
+            break;
+        case 3:
+            for (int j = 0; j < m; ++j) {
+                if (j % 3 != 1)
+                    ans += sum_u[o - 1][j] - sum_d[o - 1][j];
+            }
+            break;
+        case 5:
+            for (int j = 0; j < m; ++j) {
+                if (j % 3 != 1)
+                    ans += sum_u[o][j];
+            }
+    }
+    const int k = gcd(m, ans);
+    printf("%d/%d\n", (m - ans) / k, m / k);
     return 0;
 }

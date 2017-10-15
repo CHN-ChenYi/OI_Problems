@@ -72,6 +72,40 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+struct BinaryIndexedTree {
+ private:
+    int n;
+    LL tr[kMaxN];
+    inline int lowbit(const int &x) {
+        return x & -x;
+    }
+
+ public:
+    inline void Init(const int &n_) {
+        n = n_;
+    }
+    inline void Reset(int pos) {
+        while (pos <= n) {
+            tr[pos] = 0;
+            pos += lowbit(pos);
+        }
+    }
+    inline void Modify(int pos, const int &del) {
+        while (pos <= n) {
+            tr[pos] += del;
+            pos += lowbit(pos);
+        }
+    }
+    inline LL Query(int pos) {
+        LL ret = 0;
+        while (pos) {
+            ret += tr[pos];
+            pos -= lowbit(pos);
+        }
+        return ret;
+    }
+}BIT;
+
 int n, m;
 set<int> s;
 
@@ -100,6 +134,8 @@ int main() {
     freopen("strings.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif  // ONLINE_JUDGE
+    scan(n, m);
+    BIT.Init(n);
 
     return 0;
 }

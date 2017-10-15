@@ -135,7 +135,8 @@ int main() {
             sum_d[n - 2][j] = matrix[n - 1][j - 1] - sum_d[n - 2][j - 2];
     }
     for (int i = n - 3; i >= 0; i--) {
-        int last_matrix = i + 1, last_sum;
+        int last_sum;
+        const int last_matrix = i + 1;
         switch ((n - i) % 3) {
             case 0:
                 last_sum = i + 1;
@@ -156,19 +157,19 @@ int main() {
     const int o = n >> 1;
     switch (n % 6) {
         case 1:
-            for (int j = 0; j < m; ++j) {
+            for (int j = 0; j < m; j++) {
                 if (j % 3 != 1)
                     ans += sum_u[o][j] - sum_d[o + 1][j];
             }
             break;
         case 3:
-            for (int j = 0; j < m; ++j) {
+            for (int j = 0; j < m; j++) {
                 if (j % 3 != 1)
                     ans += sum_u[o - 1][j] - sum_d[o - 1][j];
             }
             break;
         case 5:
-            for (int j = 0; j < m; ++j) {
+            for (int j = 0; j < m; j++) {
                 if (j % 3 != 1)
                     ans += sum_u[o][j];
             }

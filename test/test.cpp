@@ -5,6 +5,8 @@ Date: 15/10/2017
 */
 #include <cstdio>
 
+const int kMaxN = 1000;
+
 #include <cctype>
 namespace FastIO {
     template <class T>
@@ -65,6 +67,11 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+int n, m;
+char input;
+int matrix[kMaxN][kMaxN];
+int sum_u[kMaxN][kMaxN], sum_d[kMaxN][kMaxN];
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -74,6 +81,13 @@ int main() {
     freopen("matrices.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif  // ONLINE_JUDGE
+    scan(n, m);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            scan(input);
+            matrix[i][j] = input - '0';
+        }
+    }
 
     return 0;
 }

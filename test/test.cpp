@@ -116,6 +116,31 @@ int main() {
                 sum_u[i][j] = matrix[last_mat][j] - sum_u[last_sum][j] - sum_u[last_sum][j - 2] - sum_u[i][j - 2];
         }
     }
-
+    sum_d[n - 2][0] = matrix[n - 1][0];
+    for (int j = 2; j < m; j++) {
+        if (j % 3 == 0)
+            sum_d[n - 2][j] = matrix[n - 1][j] - sum_d[n - 2][j - 1];
+        else if (j % 3 == 2)
+            sum_d[n - 2][j] = matrix[n - 1][j - 1] - sum_d[n - 2][j - 2];
+    }
+    for (int i = n - 3; i >= 0; i--) {
+        int last_matrix = i + 1, last_sum;
+        switch ((n - i) % 3) {
+            case 0:
+                last_sum = i + 1;
+                break;
+            case 1:
+                continue;
+            default:
+                last_sum = i + 2;
+        }
+        sum_d[i][0] = matrix[last_matrix][0] - sum_d[last_sum][0];
+        for (int j = 2; j < m; j++) {
+            if (j % 3 == 0)
+                sum_d[i][j] = matrix[last_matrix][j] - sum_d[last_sum][j] - sum_d[last_sum][j - 1] - sum_d[i][j - 1];
+            else if (j % 3 == 2)
+                sum_d[i][j] = matrix[last_matrix][j] - sum_d[last_sum][j] - sum_d[last_sum][j - 2] - sum_d[i][j - 2];
+        }
+    }
     return 0;
 }

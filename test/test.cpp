@@ -108,6 +108,8 @@ struct BinaryIndexedTree {
 
 int n, m;
 set<int> s;
+int ans_tot;
+char str[20];
 
 struct Operation {
     int idx; // 0->Modify
@@ -124,6 +126,12 @@ struct Operation {
         return idx < rhs.idx;
     }
 }ope[kMaxM], tmp[kMaxM];
+inline void Modify(const int &pos, const int &val) {
+
+}
+inline void Query(const int &idx, const int &l, const int &r) {
+
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
@@ -136,6 +144,18 @@ int main() {
 #endif  // ONLINE_JUDGE
     scan(n, m);
     BIT.Init(n);
+    for (int i = 1, x; i <= n; i++) {
+        scan(x);
+        Modify(i, x);
+    }
+    for (int i = 1, x, y; i <= m; i++) {
+        scanf("%s", str);
+        scan(x, y);
+        if (str[0] == 'Q')
+            Query(++ans_tot, x, y);
+        else
+            Modify(x, y);
+    }
 
     return 0;
 }

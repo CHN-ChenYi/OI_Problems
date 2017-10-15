@@ -188,7 +188,7 @@ void CDQ(const int &l, const int &r) {
         if (!ope[i].idx)
             BIT.Reset(ope[i].y);
     }
-    memcpy(ope, tmp, (r - l + 1) * sizeof(Operation));
+    memcpy(ope + l, tmp + l, (r - l + 1) * sizeof(Operation));
 }
 
 int main() {

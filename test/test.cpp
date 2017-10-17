@@ -7,8 +7,8 @@ Date: DD/MM/YYYY
 
 #include <cctype>
 namespace FastIO {
-    template <class T>
-    inline void scan(T &x) {
+    template <class T_1>
+    inline void scan(T_1 &x) {
         x = 0;
         char c;
         bool positive = 1;

@@ -74,7 +74,7 @@ namespace SA {
   int n, bit;
   int s[kMaxN];
   size_t size_of_n_int;
-  int sa[kMaxN], h[kMaxN];
+  int sa[kMaxN], height[kMaxN];
   int cnt[kMaxN], rank_1[kMaxN], rank_2[kMaxN];
   void GetSA(char *str) {
     n = strlen(str);
@@ -113,6 +113,14 @@ namespace SA {
   }
   void GetHeight(char *str) {
     GetSA(str);
+    int k = 0;
+    for (int i = 0; i < n - 1; i++) {
+      const int j = sa[rank_1[i] - 1];
+      while (s[i + k] == s[j + k])
+        k++;
+      height[i] = k;
+      k -= (k > 0);
+    }
   }
 }  // namespace SA
 
@@ -129,5 +137,11 @@ int main() {
 #endif  // ONLINE_JUDGE
   scanf("%s", s);
   SA::GetHeight(s);
+  for (int i = 0; i < SA::n; i++)
+    printf("%d ", SA::sa[i]);
+  putchar('\n');
+  for (int i = 0; i < SA::n; i++)
+    printf("%d ", SA::height[i]);
+  putchar('\n');
   return 0;
 }

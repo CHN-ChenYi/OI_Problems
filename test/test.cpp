@@ -1,7 +1,7 @@
 /*
-Name: title(sourceNo)
+Name: SA(LJOJ3313)
 Author: godwings
-Date: DD/MM/YYYY
+Date: 08/11/2017
 */
 #include <cstdio>
 
@@ -70,8 +70,8 @@ int main() {
 #ifdef _VISUAL_STUDIO
   freopen("test.in", "r", stdin);
 #else
-  freopen("title.in", "r", stdin);
-  freopen("title.out", "w", stdout);
+  freopen("SA.in", "r", stdin);
+  freopen("SA.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif  // ONLINE_JUDGE
 

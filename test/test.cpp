@@ -75,11 +75,11 @@ namespace SA {
   int s[kMaxN];
   size_t size_of_n_int;
   int sa[kMaxN], height[kMaxN];
-  int cnt[kMaxN], rank_1[kMaxN], rank_2[kMaxN];
+  int cnt[kMaxN], rank_1[kMaxN], rank_2[kMaxN], rank[kMaxN];
   void GetSA(char *str) {
     n = strlen(str);
     bit = log2(n);
-    size_of_n_int = sizeof(int) * n;
+    size_of_n_int = sizeof(int) * (n + 1);
     for (int i = 0; i < n; i++)
       s[i] = str[i] - 'a';
     for (int i = 0; i < n; i++)
@@ -87,8 +87,9 @@ namespace SA {
     for (int i = 1; i <= 26; i++)
       cnt[i] += cnt[i - 1];
     for (int i = 0; i < n; i++)
-      rank_1[i] = cnt[s[i]]--;
-    for (int bits = 1; bits <= bit; bits++) {
+      rank_1[i] = cnt[s[i]];
+    bool unique = 0;
+    for (int bits = 0; !unique && bits <= bit; bits++) {
       const int step = 1 << bits;
       for (int i = n - 1 - step; i >= 0; i--)
         rank_2[i] = rank_1[i + step];
@@ -96,17 +97,30 @@ namespace SA {
       memset(cnt, 0, size_of_n_int);
       for (int i = 0; i < n; i++)
         cnt[rank_2[i]]++;
-      for (int i = 2; i <= n; i++)
+      for (int i = 1; i <= n; i++)
         cnt[i] += cnt[i - 1];
       for (int i = 0; i < n; i++)
         sa[cnt[rank_2[i]]--] = i;
       memset(cnt, 0, size_of_n_int);
       for (int i = 0; i < n; i++)
         cnt[rank_1[i]]++;
-      for (int i = 2; i <= n; i++)
+      for (int i = 1; i <= n; i++)
         cnt[i] += cnt[i - 1];
-      for (int i = n - 1; i >= 0; i--)
-        rank_1[sa[i]] = cnt[rank_1[sa[i]]]--;
+      for (int i = n; i; i--)
+        rank[sa[i]] = cnt[rank_1[sa[i]]]--;
+      for (int i = 0; i < n; i++)
+        sa[rank[i]] = i;
+      rank[sa[1]] = 1;
+      unique = 1;
+      for (int i = 2; i <= n; i++) {
+        if (rank_1[sa[i]] == rank_1[sa[i - 1]] && rank_2[sa[i]] == rank_2[sa[i - 1]]) {
+          unique = 0;
+          rank[sa[i]] = rank[sa[i - 1]];
+        } else {
+          rank[sa[i]] = rank[sa[i - 1]] + 1;
+        }
+      }
+      memcpy(rank_1, rank, size_of_n_int);
     }
     for (int i = 0; i < n; i++)
       sa[rank_1[i]] = i;
@@ -115,8 +129,8 @@ namespace SA {
     GetSA(str);
     int k = 0;
     for (int i = 0; i < n - 1; i++) {
-      const int j = sa[rank_1[i] - 1];
-      while (s[i + k] == s[j + k])
+      const int j = sa[rank[i] - 1];
+      while (i + k < n && j + k < n && s[i + k] == s[j + k])
         k++;
       height[i] = k;
       k -= (k > 0);
@@ -137,8 +151,8 @@ int main() {
 #endif  // ONLINE_JUDGE
   scanf("%s", s);
   SA::GetHeight(s);
-  for (int i = 0; i < SA::n; i++)
-    printf("%d ", SA::sa[i]);
+  for (int i = 1; i <= SA::n; i++)
+    printf("%d ", SA::sa[i] + 1);
   putchar('\n');
   for (int i = 0; i < SA::n; i++)
     printf("%d ", SA::height[i]);

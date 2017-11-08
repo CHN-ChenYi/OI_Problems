@@ -3,7 +3,9 @@ Name: SA(LJOJ3313)
 Author: godwings
 Date: 08/11/2017
 */
+#include <cmath>
 #include <cstdio>
+#include <cstring>
 
 #include <cctype>
 namespace FastIO {
@@ -65,6 +67,57 @@ namespace FastIO {
 }  // namespace FastIO
 using FastIO::scan;
 
+const int kMaxS = 26;
+const int kMaxN = 2e5 + 5;
+
+namespace SA {
+  int n, bit;
+  int s[kMaxN];
+  size_t size_of_n_int;
+  int sa[kMaxN], h[kMaxN];
+  int cnt[kMaxN], rank_1[kMaxN], rank_2[kMaxN];
+  void GetSA(char *str) {
+    n = strlen(str);
+    bit = log2(n);
+    size_of_n_int = sizeof(int) * n;
+    for (int i = 0; i < n; i++)
+      s[i] = str[i] - 'a';
+    for (int i = 0; i < n; i++)
+      cnt[s[i]]++;
+    for (int i = 1; i <= 26; i++)
+      cnt[i] += cnt[i - 1];
+    for (int i = 0; i < n; i++)
+      rank_1[i] = cnt[s[i]]--;
+    for (int bits = 1; bits <= bit; bits++) {
+      const int step = 1 << bits;
+      for (int i = n - 1 - step; i >= 0; i--)
+        rank_2[i] = rank_1[i + step];
+      memset(rank_2 + n - step, 0, sizeof(int) * step);
+      memset(cnt, 0, size_of_n_int);
+      for (int i = 0; i < n; i++)
+        cnt[rank_2[i]]++;
+      for (int i = 2; i <= n; i++)
+        cnt[i] += cnt[i - 1];
+      for (int i = 0; i < n; i++)
+        sa[cnt[rank_2[i]]--] = i;
+      memset(cnt, 0, size_of_n_int);
+      for (int i = 0; i < n; i++)
+        cnt[rank_1[i]]++;
+      for (int i = 2; i <= n; i++)
+        cnt[i] += cnt[i - 1];
+      for (int i = n - 1; i >= 0; i--)
+        rank_1[sa[i]] = cnt[rank_1[sa[i]]]--;
+    }
+    for (int i = 0; i < n; i++)
+      sa[rank_1[i]] = i;
+  }
+  void GetHeight(char *str) {
+    GetSA(str);
+  }
+}  // namespace SA
+
+char s[kMaxN];
+
 int main() {
 #ifndef ONLINE_JUDGE
 #ifdef _VISUAL_STUDIO
@@ -74,6 +127,7 @@ int main() {
   freopen("SA.out", "w", stdout);
 #endif  // _VISUAL_STUDIO
 #endif  // ONLINE_JUDGE
-
+  scanf("%s", s);
+  SA::GetHeight(s);
   return 0;
 }

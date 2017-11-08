@@ -129,12 +129,13 @@ namespace SA {
     GetSA(str);
     int k = 0;
     for (int i = 0; i < n - 1; i++) {
+      k -= (k > 0);
       const int j = sa[rank[i] - 1];
       while (i + k < n && j + k < n && s[i + k] == s[j + k])
         k++;
-      height[i] = k;
-      k -= (k > 0);
+      height[rank[i] - 1] = k;
     }
+    height[0] = 0;
   }
 }  // namespace SA
 
